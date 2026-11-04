@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">openStream</string>
+    <string name="tagline">Har bir kadr hikoya so‘zlaydi.</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Bosh sahifa</string>
+    <string name="nav_discover">Kashf qilish</string>
+    <string name="nav_search">Qidiruv</string>
+    <string name="nav_library">Kutubxona</string>
+    <string name="nav_settings">Sozlamalar</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">O‘tkazib yuborish</string>
+    <string name="onboarding_next">Keyingisi</string>
+    <string name="onboarding_get_started">Boshlash</string>
+    <string name="onboarding_title_1">Boqiy kinoni kashf eting</string>
+    <string name="onboarding_desc_1">Kino san’atining oltin davrlariga sayohat qiling. Dunyo madaniyati uchun saqlangan durdona filmlardan bahramand bo‘ling.</string>
+    <string name="onboarding_title_2">Ommaviy mulkdagi durdonalar</string>
+    <string name="onboarding_desc_2">Obunasiz va yashirin to‘lovlarsiz qonuniy hamda erkin tomosha qilish mumkin bo‘lgan filmlar.</string>
+    <string name="onboarding_title_3">Haqiqiy kinematik tajriba</string>
+    <string name="onboarding_desc_3">Kino ixlosmandlari uchun maxsus yaratilgan minimalistik interfeys va saralangan to‘plamlar.</string>
+
+    <!-- Home -->
+    <string name="home_welcome_title">Saralangan klassika</string>
+    <string name="home_featured_tag">Asosiy e’tibor</string>
+    <string name="home_hero_watch">Filmni ko‘rish</string>
+    <string name="home_hero_watchlist">Ro‘yxatga qo‘shish</string>
+    <string name="home_hero_in_watchlist">Ro‘yxatda mavjud</string>
+    <string name="home_section_continue">Tomoshani davom ettirish</string>
+    <string name="home_section_collections">Saralangan to‘plamlar</string>
+    <string name="home_section_recent">Yaqinda qo‘shilganlar</string>
+    <string name="home_section_classics">Mashhur klassika</string>
+
+    <!-- Discover -->
+    <string name="discover_title">Kinoni kashf eting</string>
+    <string name="genre_all">Barchasi</string>
+    <string name="genre_silent">Ovozsiz kino</string>
+    <string name="genre_noir">Film-nuar</string>
+    <string name="genre_scifi">Fantastika va Dahshat</string>
+    <string name="genre_comedy">Komediya</string>
+    <string name="genre_drama">Drama</string>
+    <string name="discover_empty_title">To‘plamlar topilmadi</string>
+    <string name="discover_empty_desc">Tanlangan toifa bo‘yicha 1-bosqich katalogida filmlar hozircha mavjud emas.</string>
+
+    <!-- Search -->
+    <string name="search_hint">Film, rejissyor yoki janrni qidiring…</string>
+    <string name="search_recent_title">Oxirgi qidiruvlar</string>
+    <string name="search_clear">Tozalash</string>
+    <string name="search_empty_prompt">Ommaviy mulkdagi klassik filmlarni nomi, rejissyori yoki davri bo‘yicha qidiring.</string>
+    <string name="search_no_results_title">Filmlar topilmadi</string>
+    <string name="search_no_results_desc">Boshqa kalit so‘zlar, rejissyor yoki chiqarilgan yil bo‘yicha qidirib ko‘ring.</string>
+
+    <!-- Library -->
+    <string name="library_title">Kutubxona</string>
+    <string name="library_tab_watchlist">Tomosha ro‘yxati</string>
+    <string name="library_tab_favorites">Sevimlilar</string>
+    <string name="library_watchlist_empty_title">Tomosha ro‘yxatingiz bo‘sh</string>
+    <string name="library_watchlist_empty_desc">Katalogimizdagi filmlarni o‘rganing va keyinroq tomosha qilish uchun saqlab qo‘ying.</string>
+    <string name="library_favorites_empty_title">Hozircha sevimlilar yo‘q</string>
+    <string name="library_favorites_empty_desc">Shaxsiy to‘plamingizda saqlash uchun istalgan filmdagi yurakcha belgisini bosing.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Sozlamalar</string>
+    <string name="settings_section_general">Afzalliklar</string>
+    <string name="settings_language">Ilova tili</string>
+    <string name="settings_language_desc">O‘zingizga ma’qul tilni tanlang</string>
+    <string name="settings_lang_en">English</string>
+    <string name="settings_lang_uz">O‘zbekcha (Lotin)</string>
+    <string name="settings_lang_ru">Русский</string>
+    <string name="settings_theme">Mavzu</string>
+    <string name="settings_theme_dark">Kinematik tungi (Qorong‘i)</string>
+    <string name="settings_section_about">openStream haqida</string>
+    <string name="settings_about_desc">openStream — tarixiy va ommaviy mulkka aylangan kino durdonalarini asrash va tomosha qilish uchun yaratilgan ochiq platforma.</string>
+    <string name="settings_privacy">Maxfiylik siyosati va qoidalar</string>
+    <string name="settings_privacy_note">openStream shaxsiy ma’lumotlaringizni kuzatmaydi va hech kimga bermaydi.</string>
+    <string name="settings_version">Versiya</string>
+    <string name="settings_phase">1-bosqich (Poydevor va Dizayn tizimi)</string>
+
+    <!-- Common UI -->
+    <string name="common_loading">Kinematik katalog yuklanmoqda…</string>
+    <string name="common_error_title">Xatolik yuz berdi</string>
+    <string name="common_error_desc">Kerakli ma’lumotlarni yuklab bo‘lmadi.</string>
+    <string name="common_retry">Qayta urinish</string>
+    <string name="common_year">%1$d</string>
+    <string name="common_duration">%1$d daq</string>
+    <string name="content_desc_movie_poster">%1$s filmi posteri</string>
+    <string name="content_desc_play">Filmni boshlash</string>
+    <string name="content_desc_favorite">Sevimliga qo‘shish</string>
+    <string name="content_desc_bookmark">Tomosha ro‘yxatiga qo‘shish</string>
+    <string name="content_desc_clear_search">Qidiruv matnini tozalash</string>
+    <string name="content_desc_logo">openStream brend logotipi</string>
+</resources>

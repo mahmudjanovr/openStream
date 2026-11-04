@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Outer reel frame -->
+    <path
+        android:strokeColor="#C6AD7A"
+        android:strokeWidth="3.5"
+        android:pathData="M34,28 h40 a6,6 0 0 1 6,6 v40 a6,6 0 0 1 -6,6 h-40 a6,6 0 0 1 -6,-6 v-40 a6,6 0 0 1 6,-6 z" />
+    <!-- Film perforations left & right -->
+    <path
+        android:fillColor="#F2EFE8"
+        android:pathData="M31,34h4v5h-4z M31,45h4v5h-4z M31,56h4v5h-4z M31,67h4v5h-4z M73,34h4v5h-4z M73,45h4v5h-4z M73,56h4v5h-4z M73,67h4v5h-4z" />
+    <!-- Center Play/Projector triangle -->
+    <path
+        android:fillColor="#C6AD7A"
+        android:pathData="M48,43 L64,54 L48,65 Z" />
+</vector>

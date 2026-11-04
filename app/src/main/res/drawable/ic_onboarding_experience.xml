@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <!-- Cinema Screen / Canvas -->
+    <path
+        android:fillColor="#182233"
+        android:strokeColor="#C6AD7A"
+        android:strokeWidth="3"
+        android:pathData="M35,45 h130 a6,6 0 0 1 6,6 v85 a6,6 0 0 1 -6,6 h-130 a6,6 0 0 1 -6,-6 v-85 a6,6 0 0 1 6,-6 z" />
+
+    <!-- Clapperboard top slates -->
+    <path
+        android:fillColor="#252F40"
+        android:strokeColor="#F2EFE8"
+        android:strokeWidth="2.5"
+        android:pathData="M55,30 L145,18 L147,32 L57,44 Z" />
+    <path
+        android:fillColor="#F2EFE8"
+        android:pathData="M70,28 L80,26 L78,39 L68,41 Z M95,24 L105,22 L103,35 L93,37 Z M120,20 L130,18 L128,31 L118,33 Z" />
+
+    <!-- Golden star inside cinema screen -->
+    <path
+        android:fillColor="#C6AD7A"
+        android:pathData="M100,75 L106,93 L125,93 L110,104 L115,122 L100,111 L85,122 L90,104 L75,93 L94,93 Z" />
+
+    <!-- Cinema base stand -->
+    <path
+        android:strokeColor="#9AA5B5"
+        android:strokeWidth="3.5"
+        android:pathData="M100,142 L100,165 M65,165 L135,165" />
+</vector>

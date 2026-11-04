@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.OpenStream" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@color/openstream_midnight_navy</item>
+        <item name="android:navigationBarColor">@color/openstream_midnight_navy</item>
+        <item name="android:windowBackground">@color/openstream_midnight_navy</item>
+    </style>
+</resources>

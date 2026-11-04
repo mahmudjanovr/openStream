@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <!-- Light beam from projector -->
+    <path
+        android:fillColor="#1F2A3D"
+        android:pathData="M115,85 L190,40 L190,160 L115,115 Z" />
+    <path
+        android:fillColor="#2A3850"
+        android:pathData="M120,90 L185,55 L185,145 L120,110 Z" />
+
+    <!-- Top Reel -->
+    <path
+        android:strokeColor="#C6AD7A"
+        android:strokeWidth="4"
+        android:pathData="M55,50 m-25,0 a25,25 0 1,0 50,0 a25,25 0 1,0 -50,0" />
+    <path
+        android:fillColor="#C6AD7A"
+        android:pathData="M55,50 m-6,0 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0" />
+    <path
+        android:strokeColor="#C6AD7A"
+        android:strokeWidth="2"
+        android:pathData="M55,30 L55,70 M35,50 L75,50" />
+
+    <!-- Projector Body -->
+    <path
+        android:fillColor="#252F40"
+        android:strokeColor="#C6AD7A"
+        android:strokeWidth="3"
+        android:pathData="M40,75 h65 a4,4 0 0 1 4,4 v50 a4,4 0 0 1 -4,4 h-65 a4,4 0 0 1 -4,-4 v-50 a4,4 0 0 1 4,-4 z" />
+
+    <!-- Lens -->
+    <path
+        android:fillColor="#C6AD7A"
+        android:pathData="M109,88 L124,80 L124,120 L109,112 Z" />
+
+    <!-- Projector Stand / Tripod -->
+    <path
+        android:strokeColor="#9AA5B5"
+        android:strokeWidth="4"
+        android:pathData="M72,133 L72,160 M72,160 L45,190 M72,160 L100,190" />
+</vector>

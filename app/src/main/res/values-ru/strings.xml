@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">openStream</string>
+    <string name="tagline">Каждый кадр рассказывает историю.</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Главная</string>
+    <string name="nav_discover">Каталог</string>
+    <string name="nav_search">Поиск</string>
+    <string name="nav_library">Коллекция</string>
+    <string name="nav_settings">Настройки</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Пропустить</string>
+    <string name="onboarding_next">Далее</string>
+    <string name="onboarding_get_started">Начать просмотр</string>
+    <string name="onboarding_title_1">Откройте вечную классику кино</string>
+    <string name="onboarding_desc_1">Путешествуйте по золотым эпохам кинематографа. Наслаждайтесь шедеврами, сохраненными для всего человечества.</string>
+    <string name="onboarding_title_2">Общественное достояние</string>
+    <string name="onboarding_desc_2">Легально доступные фильмы, представляющие культурную ценность, без подписок и скрытых условий.</string>
+    <string name="onboarding_title_3">Чистый кинематографический опыт</string>
+    <string name="onboarding_desc_3">Минималистичный интерфейс, кураторские коллекции и атмосфера, созданная специально для ценителей кино.</string>
+
+    <!-- Home -->
+    <string name="home_welcome_title">Золотая классика</string>
+    <string name="home_featured_tag">В центре внимания</string>
+    <string name="home_hero_watch">Смотреть фильм</string>
+    <string name="home_hero_watchlist">В список</string>
+    <string name="home_hero_in_watchlist">В списке</string>
+    <string name="home_section_continue">Продолжить просмотр</string>
+    <string name="home_section_collections">Избранные коллекции</string>
+    <string name="home_section_recent">Недавно добавленные</string>
+    <string name="home_section_classics">Популярная классика</string>
+
+    <!-- Discover -->
+    <string name="discover_title">Исследуйте кино</string>
+    <string name="genre_all">Все</string>
+    <string name="genre_silent">Немое кино</string>
+    <string name="genre_noir">Фильм-нуар</string>
+    <string name="genre_scifi">Фантастика и ужасы</string>
+    <string name="genre_comedy">Комедия</string>
+    <string name="genre_drama">Драма</string>
+    <string name="discover_empty_title">Коллекции не найдены</string>
+    <string name="discover_empty_desc">В выбранной категории пока нет фильмов в каталоге Фазы 1.</string>
+
+    <!-- Search -->
+    <string name="search_hint">Поиск фильмов, режиссёров, жанров…</string>
+    <string name="search_recent_title">История поиска</string>
+    <string name="search_clear">Очистить</string>
+    <string name="search_empty_prompt">Ищите шедевры кинематографа по названию, режиссёру или десятилетию.</string>
+    <string name="search_no_results_title">Фильмы не найдены</string>
+    <string name="search_no_results_desc">Попробуйте использовать другие ключевые слова, имя режиссёра или год выхода.</string>
+
+    <!-- Library -->
+    <string name="library_title">Моя коллекция</string>
+    <string name="library_tab_watchlist">Буду смотреть</string>
+    <string name="library_tab_favorites">Избранное</string>
+    <string name="library_watchlist_empty_title">Список просмотра пуст</string>
+    <string name="library_watchlist_empty_desc">Исследуйте каталог и сохраняйте фильмы, которые хотите посмотреть позже.</string>
+    <string name="library_favorites_empty_title">В избранном пока пусто</string>
+    <string name="library_favorites_empty_desc">Нажмите на значок сердца у любого фильма, чтобы сохранить его в свою персональную коллекцию.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_section_general">Предпочтения</string>
+    <string name="settings_language">Язык приложения</string>
+    <string name="settings_language_desc">Выберите предпочитаемый язык интерфейса</string>
+    <string name="settings_lang_en">English</string>
+    <string name="settings_lang_uz">O‘zbekcha (Lotin)</string>
+    <string name="settings_lang_ru">Русский</string>
+    <string name="settings_theme">Тема оформления</string>
+    <string name="settings_theme_dark">Кинематографическая ночная (Тёмная)</string>
+    <string name="settings_section_about">О приложении openStream</string>
+    <string name="settings_about_desc">openStream — открытая премиальная платформа, посвящённая классическим киношедеврам в общественном достоянии.</string>
+    <string name="settings_privacy">Конфиденциальность и условия</string>
+    <string name="settings_privacy_note">openStream не отслеживает персональные данные и не передаёт историю просмотров.</string>
+    <string name="settings_version">Версия</string>
+    <string name="settings_phase">Фаза 1 (Фундамент и дизайн-система)</string>
+
+    <!-- Common UI -->
+    <string name="common_loading">Загрузка каталога…</string>
+    <string name="common_error_title">Что-то пошло не так</string>
+    <string name="common_error_desc">Не удалось загрузить выбранный контент.</string>
+    <string name="common_retry">Повторить</string>
+    <string name="common_year">%1$d</string>
+    <string name="common_duration">%1$d мин</string>
+    <string name="content_desc_movie_poster">Постер фильма %1$s</string>
+    <string name="content_desc_play">Воспроизвести</string>
+    <string name="content_desc_favorite">Добавить в избранное</string>
+    <string name="content_desc_bookmark">Добавить в список просмотра</string>
+    <string name="content_desc_clear_search">Очистить строку поиска</string>
+    <string name="content_desc_logo">Логотип openStream</string>
+</resources>

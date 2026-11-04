@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <!-- Outer archive ring -->
+    <path
+        android:strokeColor="#C6AD7A"
+        android:strokeWidth="3"
+        android:pathData="M100,25 m-65,0 a65,65 0 1,0 130,0 a65,65 0 1,0 -130,0" />
+    <!-- Classical columns / Pedestal -->
+    <path
+        android:fillColor="#252F40"
+        android:strokeColor="#C6AD7A"
+        android:strokeWidth="3"
+        android:pathData="M50,150 h100 v15 h-100 z M60,105 h15 v45 h-15 z M92,105 h16 v45 h-16 z M125,105 h15 v45 h-15 z M45,165 h110 v12 h-110 z" />
+    <!-- Open Book / Heritage symbol -->
+    <path
+        android:strokeColor="#F2EFE8"
+        android:strokeWidth="3"
+        android:pathData="M100,85 C90,75 60,75 55,80 L55,105 C65,100 90,100 100,108 C110,100 135,100 145,105 L145,80 C140,75 110,75 100,85 Z" />
+    <!-- Film strip header -->
+    <path
+        android:strokeColor="#C6AD7A"
+        android:strokeWidth="2"
+        android:pathData="M65,48 h70 v22 h-70 z" />
+    <path
+        android:fillColor="#F2EFE8"
+        android:pathData="M70,52 h6 v6 h-6 z M85,52 h6 v6 h-6 z M100,52 h6 v6 h-6 z M115,52 h6 v6 h-6 z M70,60 h6 v6 h-6 z M85,60 h6 v6 h-6 z M100,60 h6 v6 h-6 z M115,60 h6 v6 h-6 z" />
+</vector>

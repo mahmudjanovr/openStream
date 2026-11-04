@@ -1,0 +1,134 @@
+package com.openstream.app.core.designsystem.component
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.openstream.app.R
+import com.openstream.app.core.designsystem.theme.OpenStreamTheme
+import com.openstream.app.domain.model.Movie
+
+@Composable
+fun OpenStreamMovieCard(
+    movie: Movie,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    cardWidth: Dp? = 140.dp
+) {
+    val cardModifier = if (cardWidth != null) {
+        modifier.width(cardWidth)
+    } else {
+        modifier.fillMaxWidth()
+    }
+
+    val shape = OpenStreamTheme.shapes.medium
+
+    Column(
+        modifier = cardModifier
+            .clip(shape)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = rememberRipple(bounded = true, color = OpenStreamTheme.colors.accent),
+                onClick = onClick
+            )
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(2f / 3f)
+                .clip(shape)
+                .background(OpenStreamTheme.colors.surfaceElevated)
+                .border(1.dp, OpenStreamTheme.colors.border, shape)
+        ) {
+            if (movie.posterUrl.isNotBlank()) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(movie.posterUrl)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = stringResource(R.string.content_desc_movie_poster, movie.title),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                OpenStreamPosterPlaceholder(
+                    title = movie.title,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+            // Cinematic gradient overlay on bottom of card
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .align(Alignment.BottomCenter)
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(Color.Transparent, OpenStreamTheme.colors.background)
+                        )
+                    )
+            )
+        }
+
+        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
+
+        Text(
+            text = movie.title,
+            style = OpenStreamTheme.typography.titleSmall,
+            color = OpenStreamTheme.colors.textPrimary,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "${movie.year}",
+                style = OpenStreamTheme.typography.bodySmall,
+                color = OpenStreamTheme.colors.textSecondary
+            )
+            Text(
+                text = " • ",
+                style = OpenStreamTheme.typography.bodySmall,
+                color = OpenStreamTheme.colors.textSecondary
+            )
+            Text(
+                text = movie.genre,
+                style = OpenStreamTheme.typography.bodySmall,
+                color = OpenStreamTheme.colors.accent,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
