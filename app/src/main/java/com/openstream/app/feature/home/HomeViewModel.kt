@@ -19,7 +19,7 @@ data class HomeFeedData(
     val continueWatching: List<Movie>,
     val collections: List<MovieCategory>,
     val recentlyAdded: List<Movie>,
-    val popularClassics: List<Movie>
+    val trendingClassics: List<Movie>
 )
 
 class HomeViewModel(
@@ -53,7 +53,7 @@ class HomeViewModel(
                         continueWatching = continueList,
                         collections = collections,
                         recentlyAdded = recent,
-                        popularClassics = popular
+                        trendingClassics = popular
                     )
                 }.collect { feedData ->
                     _uiState.value = UiState.Success(feedData)
@@ -74,7 +74,6 @@ class HomeViewModel(
     fun toggleHeroWatchlist(movie: Movie) {
         viewModelScope.launch {
             libraryRepository.toggleWatchlist(movie)
-            _isHeroInWatchlist.value = !_isHeroInWatchlist.value
         }
     }
 

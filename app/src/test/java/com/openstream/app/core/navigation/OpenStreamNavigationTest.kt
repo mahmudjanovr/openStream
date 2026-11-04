@@ -26,5 +26,7 @@ class OpenStreamNavigationTest {
     fun splashAndOnboardingDestinations_areDefined() {
         assertEquals("splash", OpenStreamDestinations.SPLASH)
         assertEquals("onboarding", OpenStreamDestinations.ONBOARDING)
+        assertEquals("movie_detail/{movieId}", OpenStreamDestinations.MOVIE_DETAIL)
+        assertEquals("movie_detail/movie-123", OpenStreamDestinations.movieDetailRoute("movie-123"))
     }
 }

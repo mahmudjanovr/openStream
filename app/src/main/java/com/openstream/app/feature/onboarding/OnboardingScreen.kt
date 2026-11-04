@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,23 +80,31 @@ fun OnboardingScreen(
             .background(OpenStreamTheme.colors.background)
             .statusBarsPadding()
             .navigationBarsPadding()
-            .padding(OpenStreamTheme.spacing.large)
+            .padding(horizontal = OpenStreamTheme.spacing.large, vertical = OpenStreamTheme.spacing.medium)
     ) {
-        // Skip Button in Top Right
+        // Skip Button in Top Right with subtle glass border
         if (!isLastPage) {
-            TextButton(
-                onClick = viewModel::onSkipClicked,
-                modifier = Modifier.align(Alignment.TopEnd)
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .clip(CircleShape)
+                    .background(OpenStreamTheme.colors.surfaceElevated.copy(alpha = 0.6f))
+                    .border(0.75.dp, OpenStreamTheme.colors.border, CircleShape)
             ) {
-                Text(
-                    text = stringResource(R.string.onboarding_skip),
-                    style = OpenStreamTheme.typography.labelLarge,
-                    color = OpenStreamTheme.colors.textSecondary
-                )
+                TextButton(
+                    onClick = viewModel::onSkipClicked,
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 14.dp, vertical = 6.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.onboarding_skip),
+                        style = OpenStreamTheme.typography.labelMedium,
+                        color = OpenStreamTheme.colors.textSecondary
+                    )
+                }
             }
         }
 
-        // Center Content
+        // Center Artwork & Narrative
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -108,11 +117,21 @@ fun OnboardingScreen(
                 transitionSpec = { fadeIn() togetherWith fadeOut() },
                 label = "onboarding_artwork_transition"
             ) { page ->
-                Image(
-                    painter = painterResource(id = page.illustrationResId),
-                    contentDescription = null,
-                    modifier = Modifier.size(200.dp)
-                )
+                Box(
+                    modifier = Modifier
+                        .size(220.dp)
+                        .clip(CircleShape)
+                        .background(OpenStreamTheme.colors.surfaceElevated.copy(alpha = 0.5f))
+                        .border(1.dp, OpenStreamTheme.colors.border, CircleShape)
+                        .padding(OpenStreamTheme.spacing.medium),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = page.illustrationResId),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.extraLarge))
@@ -140,7 +159,7 @@ fun OnboardingScreen(
                         style = OpenStreamTheme.typography.bodyLarge,
                         color = OpenStreamTheme.colors.textSecondary,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
+                        modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.small)
                     )
                 }
             }
@@ -153,7 +172,7 @@ fun OnboardingScreen(
                 .align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Page Indicators
+            // Animated capsule indicators
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
@@ -163,8 +182,8 @@ fun OnboardingScreen(
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 4.dp)
-                            .height(6.dp)
-                            .width(if (isSelected) 24.dp else 6.dp)
+                            .height(5.dp)
+                            .width(if (isSelected) 28.dp else 6.dp)
                             .clip(CircleShape)
                             .background(
                                 if (isSelected) OpenStreamTheme.colors.accent else OpenStreamTheme.colors.surfaceElevated

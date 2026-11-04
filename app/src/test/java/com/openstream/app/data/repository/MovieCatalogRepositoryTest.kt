@@ -69,4 +69,25 @@ class MovieCatalogRepositoryTest {
         val recentAfterClear = repository.getRecentSearches().first()
         assertTrue(recentAfterClear.isEmpty())
     }
+
+    @Test
+    fun getMovieById_returnsExpectedMovie() = runTest {
+        val movie = repository.getMovieById("metropolis-1927").first()
+        assertNotNull(movie)
+        assertEquals("Metropolis", movie?.title)
+        assertEquals("Fritz Lang", movie?.director)
+    }
+
+    @Test
+    fun getMovieById_withInvalidId_returnsNull() = runTest {
+        val movie = repository.getMovieById("non-existent-id").first()
+        org.junit.Assert.assertNull(movie)
+    }
+
+    @Test
+    fun getRelatedMovies_returnsMoviesExcludingSelf() = runTest {
+        val related = repository.getRelatedMovies("metropolis-1927").first()
+        assertTrue(related.isNotEmpty())
+        assertTrue(related.none { it.id == "metropolis-1927" })
+    }
 }

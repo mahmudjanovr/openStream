@@ -23,11 +23,11 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
     }
 
     override val movieCatalogRepository: MovieCatalogRepository by lazy {
-        MovieCatalogRepositoryImpl()
+        MovieCatalogRepositoryImpl(userPreferencesRepository)
     }
 
     override val libraryRepository: LibraryRepository by lazy {
-        LibraryRepositoryImpl()
+        LibraryRepositoryImpl(userPreferencesRepository, movieCatalogRepository)
     }
 
     override val playbackHistoryRepository: PlaybackHistoryRepository by lazy {

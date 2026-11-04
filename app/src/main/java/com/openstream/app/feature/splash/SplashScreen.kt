@@ -39,7 +39,6 @@ fun SplashScreen(
     val navTarget by viewModel.navigationTarget.collectAsState()
     val alphaAnim = remember { Animatable(0f) }
     val scaleAnim = remember { Animatable(0.92f) }
-
     LaunchedEffect(Unit) {
         launch {
             alphaAnim.animateTo(
@@ -56,14 +55,13 @@ fun SplashScreen(
         delay(700)
         viewModel.checkInitialRoute()
     }
-
     LaunchedEffect(navTarget) {
         if (navTarget is SplashNavigationTarget.Navigate) {
             val destination = (navTarget as SplashNavigationTarget.Navigate).destination
             onNavigate(destination)
         }
     }
-
+// box elementlari //
     Box(
         modifier = modifier
             .fillMaxSize()

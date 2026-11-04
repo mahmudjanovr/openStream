@@ -13,52 +13,78 @@
     <!-- Onboarding -->
     <string name="onboarding_skip">Skip</string>
     <string name="onboarding_next">Next</string>
-    <string name="onboarding_get_started">Get Started</string>
+    <string name="onboarding_get_started">Begin Journey</string>
     <string name="onboarding_title_1">Discover Timeless Cinema</string>
-    <string name="onboarding_desc_1">Journey through the golden eras of motion pictures. Experience masterpieces preserved for the world.</string>
-    <string name="onboarding_title_2">Public-Domain Classics</string>
-    <string name="onboarding_desc_2">Legally accessible, culturally significant movies available freely without subscriptions or hidden paywalls.</string>
-    <string name="onboarding_title_3">Pure Cinematic Experience</string>
-    <string name="onboarding_desc_3">Minimalist interface, curated collections, and a distraction-free environment crafted for true movie lovers.</string>
+    <string name="onboarding_desc_1">Journey through the golden eras of motion pictures. Experience pristine masterworks preserved for humanity.</string>
+    <string name="onboarding_title_2">Public-Domain Heritage</string>
+    <string name="onboarding_desc_2">Culturally significant, legally accessible cinematic milestones open to everyone without paywalls or subscriptions.</string>
+    <string name="onboarding_title_3">Pure Cinematic Artistry</string>
+    <string name="onboarding_desc_3">A distraction-free, art-directed environment tailored specifically for passionate film historians and cinephiles.</string>
 
     <!-- Home -->
     <string name="home_welcome_title">Curated Classics</string>
-    <string name="home_featured_tag">Featured Spotlight</string>
+    <string name="home_featured_tag">FEATURED SPOTLIGHT</string>
     <string name="home_hero_watch">Explore Film</string>
     <string name="home_hero_watchlist">Add to Watchlist</string>
     <string name="home_hero_in_watchlist">In Watchlist</string>
     <string name="home_section_continue">Continue Watching</string>
-    <string name="home_section_collections">Featured Collections</string>
-    <string name="home_section_recent">Recently Added</string>
-    <string name="home_section_classics">Popular Classics</string>
+    <string name="home_section_collections">Curated Collections</string>
+    <string name="home_section_recent">Recently Restored</string>
+    <string name="home_section_classics">Trending Masterpieces</string>
+    <string name="home_continue_eyebrow">RESUME VIEWING</string>
+    <string name="home_progress_label">%1$d%% completed</string>
 
     <!-- Discover -->
-    <string name="discover_title">Discover Cinema</string>
-    <string name="genre_all">All</string>
+    <string name="discover_title">Archival Catalog</string>
+    <string name="discover_eyebrow">EXPLORE BY MOVEMENTS</string>
+    <string name="genre_all">All Films</string>
     <string name="genre_silent">Silent Era</string>
     <string name="genre_noir">Film Noir</string>
     <string name="genre_scifi">Sci-Fi &amp; Horror</string>
     <string name="genre_comedy">Comedy</string>
     <string name="genre_drama">Drama</string>
-    <string name="discover_empty_title">No collections found</string>
-    <string name="discover_empty_desc">Selected category has no films yet in Phase 1 catalog.</string>
+    <string name="discover_empty_title">No masterworks found</string>
+    <string name="discover_empty_desc">Selected movement or category currently has no matching catalog titles.</string>
+    <string name="discover_spotlight_title">Expressionism &amp; Shadows</string>
+    <string name="discover_spotlight_desc">Explore the revolutionary chiaroscuro lighting, psychological terror, and architectural distortion of 1920s cinema.</string>
 
     <!-- Search -->
-    <string name="search_hint">Search films, directors, genres…</string>
-    <string name="search_recent_title">Recent Searches</string>
-    <string name="search_clear">Clear</string>
-    <string name="search_empty_prompt">Search through public-domain masterpieces by title, director or decade.</string>
-    <string name="search_no_results_title">No films found</string>
-    <string name="search_no_results_desc">Try searching with different keywords, director names, or release years.</string>
+    <string name="search_hint">Search masterworks, directors, cast…</string>
+    <string name="search_recent_title">Recent Inquiries</string>
+    <string name="search_clear">Clear All</string>
+    <string name="search_genres_title">Browse Movements</string>
+    <string name="search_empty_prompt">Search through historic cinema by film title, visionary director, cast members, or release decade.</string>
+    <string name="search_no_results_title">No Masterworks Found</string>
+    <string name="search_no_results_desc">Try searching with alternative keywords, director surnames, or release years.</string>
 
     <!-- Library -->
-    <string name="library_title">Library</string>
+    <string name="library_title">Curated Library</string>
     <string name="library_tab_watchlist">Watchlist</string>
     <string name="library_tab_favorites">Favorites</string>
     <string name="library_watchlist_empty_title">Your Watchlist is Empty</string>
-    <string name="library_watchlist_empty_desc">Explore our catalog of public-domain cinema and bookmark titles to view later.</string>
+    <string name="library_watchlist_empty_desc">Bookmark cinematic masterpieces while exploring the catalog to curate your personal viewing queue.</string>
     <string name="library_favorites_empty_title">No Favorite Films Yet</string>
-    <string name="library_favorites_empty_desc">Tap the heart icon on any film to preserve it in your personal collection.</string>
+    <string name="library_favorites_empty_desc">Select the heart icon on any archival title to preserve it in your personal hall of classics.</string>
+    <string name="library_explore_button">Explore Catalog</string>
+
+    <!-- Movie Details -->
+    <string name="detail_title">Archival Record</string>
+    <string name="detail_action_explore">Explore Details</string>
+    <string name="detail_action_watchlist">Watchlist</string>
+    <string name="detail_action_in_watchlist">In Watchlist</string>
+    <string name="detail_action_favorite">Favorite</string>
+    <string name="detail_action_in_favorite">Favorited</string>
+    <string name="detail_section_synopsis">Synopsis &amp; Historical Context</string>
+    <string name="detail_section_cast">Principal Cast</string>
+    <string name="detail_section_preservation">Public Domain &amp; Archival Status</string>
+    <string name="detail_section_related">Related Masterworks</string>
+    <string name="detail_playback_notice">Archival restored print. Continuous streaming playback integration scheduled for Phase 3.</string>
+    <string name="detail_badge_public_domain">PUBLIC DOMAIN</string>
+    <string name="detail_badge_restored">RESTORED HD</string>
+    <string name="detail_director">Director: %1$s</string>
+    <string name="detail_country">Origin: %1$s</string>
+    <string name="detail_share">Share</string>
+    <string name="detail_badge_year">%1$d</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
@@ -69,25 +95,27 @@
     <string name="settings_lang_uz">O‘zbekcha (Lotin)</string>
     <string name="settings_lang_ru">Русский</string>
     <string name="settings_theme">Theme</string>
-    <string name="settings_theme_dark">Cinematic Midnight (Dark)</string>
+    <string name="settings_theme_dark">Cinematic Midnight (Dark OTT)</string>
     <string name="settings_section_about">About openStream</string>
-    <string name="settings_about_desc">openStream is an open, premium cinematic application dedicated to preserving and streaming legally accessible public-domain cinema. Designed with a timeless aesthetic for cinephiles around the globe.</string>
-    <string name="settings_privacy">Privacy Policy &amp; Terms</string>
-    <string name="settings_privacy_note">openStream does not track your personal identity or sell your viewing habits.</string>
+    <string name="settings_about_desc">openStream is an open, premium cinematic application dedicated to preserving, celebrating, and streaming legally accessible public-domain cinema. Designed with a timeless aesthetic for cinephiles around the globe.</string>
+    <string name="settings_privacy">Privacy &amp; Archival Integrity</string>
+    <string name="settings_privacy_note">openStream operates with zero commercial trackers, respecting your privacy and dedication to motion picture history.</string>
+    <string name="settings_copyright_pledge">All featured titles have undergone rigorous territory rights verification to confirm their unrestricted public-domain standing.</string>
     <string name="settings_version">Version</string>
-    <string name="settings_phase">Phase 1 (Foundation &amp; Design System)</string>
+    <string name="settings_phase">Phase 2: Complete OTT UI/UX Edition</string>
 
     <!-- Common UI -->
-    <string name="common_loading">Loading cinematic catalog…</string>
-    <string name="common_error_title">Something went wrong</string>
-    <string name="common_error_desc">We were unable to load the requested content.</string>
+    <string name="common_loading">Retrieving cinematic catalog…</string>
+    <string name="common_error_title">Playback Unavailable</string>
+    <string name="common_error_desc">Unable to retrieve the requested archival content.</string>
     <string name="common_retry">Try Again</string>
     <string name="common_year">%1$d</string>
     <string name="common_duration">%1$d min</string>
-    <string name="content_desc_movie_poster">Movie poster for %1$s</string>
+    <string name="content_desc_movie_poster">Archival film poster for %1$s</string>
     <string name="content_desc_play">Play film</string>
     <string name="content_desc_favorite">Mark as favorite</string>
     <string name="content_desc_bookmark">Add to watchlist</string>
-    <string name="content_desc_clear_search">Clear search text</string>
-    <string name="content_desc_logo">openStream brand logo</string>
+    <string name="content_desc_clear_search">Clear search inquiry</string>
+    <string name="content_desc_logo">openStream cinematic emblem</string>
+    <string name="content_desc_back">Navigate back</string>
 </resources>

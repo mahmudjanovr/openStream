@@ -13,52 +13,78 @@
     <!-- Onboarding -->
     <string name="onboarding_skip">Пропустить</string>
     <string name="onboarding_next">Далее</string>
-    <string name="onboarding_get_started">Начать просмотр</string>
+    <string name="onboarding_get_started">Начать путешествие</string>
     <string name="onboarding_title_1">Откройте вечную классику кино</string>
     <string name="onboarding_desc_1">Путешествуйте по золотым эпохам кинематографа. Наслаждайтесь шедеврами, сохраненными для всего человечества.</string>
     <string name="onboarding_title_2">Общественное достояние</string>
-    <string name="onboarding_desc_2">Легально доступные фильмы, представляющие культурную ценность, без подписок и скрытых условий.</string>
-    <string name="onboarding_title_3">Чистый кинематографический опыт</string>
-    <string name="onboarding_desc_3">Минималистичный интерфейс, кураторские коллекции и атмосфера, созданная специально для ценителей кино.</string>
+    <string name="onboarding_desc_2">Культурно значимые фильмы без подписок и скрытых условий, доступные для свободного изучения каждому.</string>
+    <string name="onboarding_title_3">Чистое кинематографическое искусство</string>
+    <string name="onboarding_desc_3">Безупречная минималистичная среда, созданная специально для ценителей истории мирового кино.</string>
 
     <!-- Home -->
     <string name="home_welcome_title">Золотая классика</string>
-    <string name="home_featured_tag">В центре внимания</string>
+    <string name="home_featured_tag">В ЦЕНТРЕ ВНИМАНИЯ</string>
     <string name="home_hero_watch">Смотреть фильм</string>
     <string name="home_hero_watchlist">В список</string>
     <string name="home_hero_in_watchlist">В списке</string>
     <string name="home_section_continue">Продолжить просмотр</string>
     <string name="home_section_collections">Избранные коллекции</string>
-    <string name="home_section_recent">Недавно добавленные</string>
-    <string name="home_section_classics">Популярная классика</string>
+    <string name="home_section_recent">Недавно отреставрированные</string>
+    <string name="home_section_classics">Популярные шедевры</string>
+    <string name="home_continue_eyebrow">ПРОДОЛЖИТЬ ПРОСМОТР</string>
+    <string name="home_progress_label">%1$d%% просмотрено</string>
 
     <!-- Discover -->
-    <string name="discover_title">Исследуйте кино</string>
-    <string name="genre_all">Все</string>
+    <string name="discover_title">Архивный каталог</string>
+    <string name="discover_eyebrow">КИНОНАПРАВЛЕНИЯ</string>
+    <string name="genre_all">Все фильмы</string>
     <string name="genre_silent">Немое кино</string>
     <string name="genre_noir">Фильм-нуар</string>
     <string name="genre_scifi">Фантастика и ужасы</string>
     <string name="genre_comedy">Комедия</string>
     <string name="genre_drama">Драма</string>
-    <string name="discover_empty_title">Коллекции не найдены</string>
-    <string name="discover_empty_desc">В выбранной категории пока нет фильмов в каталоге Фазы 1.</string>
+    <string name="discover_empty_title">Шедевры не найдены</string>
+    <string name="discover_empty_desc">В выбранной категории пока нет доступных архивных картин.</string>
+    <string name="discover_spotlight_title">Экспрессионизм и тени</string>
+    <string name="discover_spotlight_desc">Откройте драматический контраст светотени и психологическую глубину кинематографа 1920-х годов.</string>
 
     <!-- Search -->
-    <string name="search_hint">Поиск фильмов, режиссёров, жанров…</string>
-    <string name="search_recent_title">История поиска</string>
-    <string name="search_clear">Очистить</string>
-    <string name="search_empty_prompt">Ищите шедевры кинематографа по названию, режиссёру или десятилетию.</string>
-    <string name="search_no_results_title">Фильмы не найдены</string>
-    <string name="search_no_results_desc">Попробуйте использовать другие ключевые слова, имя режиссёра или год выхода.</string>
+    <string name="search_hint">Поиск фильмов, режиссёров, актёров…</string>
+    <string name="search_recent_title">История запросов</string>
+    <string name="search_clear">Очистить всё</string>
+    <string name="search_genres_title">Кинонаправления</string>
+    <string name="search_empty_prompt">Ищите шедевры кинематографа по названию картины, режиссёру, актёрам или десятилетию.</string>
+    <string name="search_no_results_title">Ничего не найдено</string>
+    <string name="search_no_results_desc">Попробуйте изменить запрос или поискать по фамилии режиссёра.</string>
 
     <!-- Library -->
     <string name="library_title">Моя коллекция</string>
     <string name="library_tab_watchlist">Буду смотреть</string>
     <string name="library_tab_favorites">Избранное</string>
     <string name="library_watchlist_empty_title">Список просмотра пуст</string>
-    <string name="library_watchlist_empty_desc">Исследуйте каталог и сохраняйте фильмы, которые хотите посмотреть позже.</string>
+    <string name="library_watchlist_empty_desc">Исследуйте каталог и сохраняйте шедевры, чтобы собрать личную очередь просмотра.</string>
     <string name="library_favorites_empty_title">В избранном пока пусто</string>
-    <string name="library_favorites_empty_desc">Нажмите на значок сердца у любого фильма, чтобы сохранить его в свою персональную коллекцию.</string>
+    <string name="library_favorites_empty_desc">Нажмите на значок сердца у любого фильма, чтобы сохранить его в свою персональную коллекцию шедевров.</string>
+    <string name="library_explore_button">Перейти в каталог</string>
+
+    <!-- Movie Details -->
+    <string name="detail_title">Архивная запись</string>
+    <string name="detail_action_explore">Подробнее о фильме</string>
+    <string name="detail_action_watchlist">В список</string>
+    <string name="detail_action_in_watchlist">В списке</string>
+    <string name="detail_action_favorite">В избранное</string>
+    <string name="detail_action_in_favorite">В избранном</string>
+    <string name="detail_section_synopsis">Сюжет и исторический контекст</string>
+    <string name="detail_section_cast">В главных ролях</string>
+    <string name="detail_section_preservation">Статус общественного достояния</string>
+    <string name="detail_section_related">Похожие шедевры</string>
+    <string name="detail_playback_notice">Отреставрированная архивная копия. Функция потокового онлайн-воспроизведения появится в Фазе 3.</string>
+    <string name="detail_badge_public_domain">ОБЩЕСТВЕННОЕ ДОСТОЯНИЕ</string>
+    <string name="detail_badge_restored">ОТРЕСТАВРИРОВАНО HD</string>
+    <string name="detail_director">Режиссёр: %1$s</string>
+    <string name="detail_country">Страна: %1$s</string>
+    <string name="detail_share">Поделиться</string>
+    <string name="detail_badge_year">%1$d</string>
 
     <!-- Settings -->
     <string name="settings_title">Настройки</string>
@@ -69,17 +95,18 @@
     <string name="settings_lang_uz">O‘zbekcha (Lotin)</string>
     <string name="settings_lang_ru">Русский</string>
     <string name="settings_theme">Тема оформления</string>
-    <string name="settings_theme_dark">Кинематографическая ночная (Тёмная)</string>
+    <string name="settings_theme_dark">Кинематографическая ночная (Dark OTT)</string>
     <string name="settings_section_about">О приложении openStream</string>
-    <string name="settings_about_desc">openStream — открытая премиальная платформа, посвящённая классическим киношедеврам в общественном достоянии.</string>
-    <string name="settings_privacy">Конфиденциальность и условия</string>
-    <string name="settings_privacy_note">openStream не отслеживает персональные данные и не передаёт историю просмотров.</string>
+    <string name="settings_about_desc">openStream — открытая премиальная OTT платформа, посвящённая классическим киношедеврам в общественном достоянии.</string>
+    <string name="settings_privacy">Конфиденциальность и архивное наследие</string>
+    <string name="settings_privacy_note">openStream работает без коммерческого отслеживания и уважает ваше личное пространство.</string>
+    <string name="settings_copyright_pledge">Все представленные картины проверены юридически и находятся в общественном достоянии.</string>
     <string name="settings_version">Версия</string>
-    <string name="settings_phase">Фаза 1 (Фундамент и дизайн-система)</string>
+    <string name="settings_phase">Фаза 2: Полная версия OTT UI/UX</string>
 
     <!-- Common UI -->
-    <string name="common_loading">Загрузка каталога…</string>
-    <string name="common_error_title">Что-то пошло не так</string>
+    <string name="common_loading">Загрузка архива…</string>
+    <string name="common_error_title">Воспроизведение недоступно</string>
     <string name="common_error_desc">Не удалось загрузить выбранный контент.</string>
     <string name="common_retry">Повторить</string>
     <string name="common_year">%1$d</string>
@@ -89,5 +116,6 @@
     <string name="content_desc_favorite">Добавить в избранное</string>
     <string name="content_desc_bookmark">Добавить в список просмотра</string>
     <string name="content_desc_clear_search">Очистить строку поиска</string>
-    <string name="content_desc_logo">Логотип openStream</string>
+    <string name="content_desc_logo">Эмблема openStream</string>
+    <string name="content_desc_back">Назад</string>
 </resources>

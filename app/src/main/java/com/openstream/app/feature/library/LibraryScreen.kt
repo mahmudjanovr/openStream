@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -43,6 +44,7 @@ import com.openstream.app.domain.model.Movie
 fun LibraryScreen(
     viewModel: LibraryViewModel,
     onMovieClick: (Movie) -> Unit,
+    onExploreCatalog: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val selectedTab by viewModel.selectedTab.collectAsState()
@@ -54,13 +56,18 @@ fun LibraryScreen(
             .fillMaxSize()
             .background(OpenStreamTheme.colors.background)
     ) {
-        OpenStreamTopBar(title = stringResource(R.string.library_title))
+        OpenStreamTopBar(
+            title = stringResource(R.string.library_title),
+            eyebrow = "PERSONAL ARCHIVE"
+        )
 
-        // Tab Selector (Watchlist / Favorites)
+        // Luxury Tab Selector (Watchlist / Favorites)
         LibraryTabSelector(
             selectedTab = selectedTab,
+            watchlistCount = watchlist.size,
+            favoritesCount = favorites.size,
             onTabSelected = viewModel::selectTab,
-            modifier = Modifier.padding(OpenStreamTheme.spacing.medium)
+            modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium, vertical = OpenStreamTheme.spacing.small)
         )
 
         // Tab Content
@@ -75,7 +82,9 @@ fun LibraryScreen(
                         OpenStreamEmptyState(
                             icon = Icons.Outlined.BookmarkBorder,
                             title = stringResource(R.string.library_watchlist_empty_title),
-                            description = stringResource(R.string.library_watchlist_empty_desc)
+                            description = stringResource(R.string.library_watchlist_empty_desc),
+                            actionText = stringResource(R.string.library_explore_button),
+                            onActionClick = onExploreCatalog
                         )
                     } else {
                         MovieGrid(movies = watchlist, onMovieClick = onMovieClick)
@@ -86,7 +95,9 @@ fun LibraryScreen(
                         OpenStreamEmptyState(
                             icon = Icons.Outlined.FavoriteBorder,
                             title = stringResource(R.string.library_favorites_empty_title),
-                            description = stringResource(R.string.library_favorites_empty_desc)
+                            description = stringResource(R.string.library_favorites_empty_desc),
+                            actionText = stringResource(R.string.library_explore_button),
+                            onActionClick = onExploreCatalog
                         )
                     } else {
                         MovieGrid(movies = favorites, onMovieClick = onMovieClick)
@@ -100,10 +111,12 @@ fun LibraryScreen(
 @Composable
 private fun LibraryTabSelector(
     selectedTab: LibraryTab,
+    watchlistCount: Int,
+    favoritesCount: Int,
     onTabSelected: (LibraryTab) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val shape = OpenStreamTheme.shapes.medium
+    val shape = CircleShape
 
     Row(
         modifier = modifier
@@ -114,14 +127,14 @@ private fun LibraryTabSelector(
             .padding(4.dp)
     ) {
         LibraryTabItem(
-            label = stringResource(R.string.library_tab_watchlist),
+            label = "${stringResource(R.string.library_tab_watchlist)} ($watchlistCount)",
             isSelected = selectedTab == LibraryTab.WATCHLIST,
             onClick = { onTabSelected(LibraryTab.WATCHLIST) },
             modifier = Modifier.weight(1f)
         )
 
         LibraryTabItem(
-            label = stringResource(R.string.library_tab_favorites),
+            label = "${stringResource(R.string.library_tab_favorites)} ($favoritesCount)",
             isSelected = selectedTab == LibraryTab.FAVORITES,
             onClick = { onTabSelected(LibraryTab.FAVORITES) },
             modifier = Modifier.weight(1f)
@@ -136,7 +149,7 @@ private fun LibraryTabItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val shape = OpenStreamTheme.shapes.small
+    val shape = CircleShape
     val background = if (isSelected) OpenStreamTheme.colors.accent else androidx.compose.ui.graphics.Color.Transparent
     val textColor = if (isSelected) OpenStreamTheme.colors.background else OpenStreamTheme.colors.textSecondary
 
@@ -167,12 +180,12 @@ private fun MovieGrid(
     onMovieClick: (Movie) -> Unit
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 140.dp),
+        columns = GridCells.Adaptive(minSize = 144.dp),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             start = OpenStreamTheme.spacing.medium,
             end = OpenStreamTheme.spacing.medium,
-            bottom = 80.dp
+            bottom = 88.dp
         ),
         horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium),
         verticalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)

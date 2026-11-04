@@ -50,6 +50,49 @@ Phase 1 establishes the rock-solid architectural foundation, design tokens, mult
 
 ---
 
+## 🎬 Phase 2: Complete Premium OTT UI/UX Redesign
+
+Phase 2 elevates **openStream** to commercial streaming standards inspired by Apple TV+, Max, and Netflix, while maintaining strict adherence to legal public-domain historical archiving.
+
+### 🌟 What's New in Phase 2
+
+1. **Movie Detail Screen**:
+   - Immersive cinematic backdrop with multi-stop dark gradient scrim and floating circular back button.
+   - Comprehensive metadata badges: Public Domain Status, 4K Restored, Release Year, Audio, Runtime.
+   - Interactive Watchlist and Favorite toggles with reactive feedback and persistent DataStore synchronization.
+   - Archival preservation notes and territory availability information.
+   - Rich horizontal carousel of related historical masterworks.
+
+2. **Cinematic Home Screen Redesign**:
+   - Full-bleed edge-to-edge Hero Spotlight banner featuring *Metropolis* (1927).
+   - Landscape 16:9 Continue Watching rail with subtle gold progress bars.
+   - Numbered gold rank badges (#1–#5) for Trending Masterpieces.
+   - Curated thematic collections and recently restored masterworks.
+
+3. **Discover & Search Elevation**:
+   - Curated Movement Spotlight banner in Discover highlighting German Expressionism.
+   - Interactive genre filter capsules with smooth selection states.
+   - Luxury Search field with persistent recent search history chips and instant clear functionality.
+
+4. **Library & Settings**:
+   - Dual-tab Library (Watchlist & Favorites) with persistent storage via DataStore.
+   - High-contrast empty states featuring direct "Explore Catalog" call-to-actions.
+   - Trilingual Settings (English, O‘zbekcha, Русский) with immediate Compose context updates.
+   - Public Domain archival pledge and version information cards.
+
+5. **Expanded Design System**:
+   - `OpenStreamBadge`: `Gold`, `Subtle`, and `Solid` variants.
+   - `MovieCardStyle.Landscape` (16:9) and `MovieCardStyle.Portrait` (2:3) with duration and progress bar overlays.
+   - Multi-stop gradients: `HeroOverlayGradient`, `DarkScrimGradient`, and `GoldAccentGradient`.
+
+6. **True Persistence**:
+   - Watchlist, Favorites, and Recent Searches persist across app restarts using Jetpack Preferences DataStore.
+
+7. **Test Coverage**:
+   - 44 comprehensive unit tests passing with 100% success rate across domain, data repositories, ViewModels, and navigation.
+
+---
+
 ## 🛠️ Technology Stack
 
 | Component | Technology |

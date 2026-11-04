@@ -13,6 +13,8 @@ interface MovieCatalogRepository {
     fun getPopularClassics(): Flow<List<Movie>>
     fun getMoviesByGenre(genre: Genre): Flow<List<Movie>>
     fun searchMovies(query: String): Flow<List<Movie>>
+    fun getMovieById(id: String): Flow<Movie?>
+    fun getRelatedMovies(movieId: String): Flow<List<Movie>>
     fun getRecentSearches(): Flow<List<String>>
     suspend fun addRecentSearch(query: String)
     suspend fun clearRecentSearches()

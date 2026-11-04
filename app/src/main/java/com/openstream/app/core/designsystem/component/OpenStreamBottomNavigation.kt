@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -22,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.selected
@@ -47,7 +51,7 @@ fun OpenStreamBottomNavigation(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(OpenStreamTheme.colors.surface)
+            .background(OpenStreamTheme.colors.surface.copy(alpha = 0.97f))
     ) {
         HorizontalDivider(
             thickness = 1.dp,
@@ -79,7 +83,7 @@ fun OpenStreamBottomNavigation(
                         .clickable(
                             role = Role.Tab,
                             interactionSource = remember { MutableInteractionSource() },
-                            indication = rememberRipple(bounded = false, radius = 24.dp),
+                            indication = rememberRipple(bounded = false, radius = 26.dp),
                             onClick = { onItemSelected(item) }
                         ),
                     contentAlignment = Alignment.Center
@@ -88,12 +92,29 @@ fun OpenStreamBottomNavigation(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
+                        // Subtle golden indicator pill above selected icon
+                        if (isSelected) {
+                            Box(
+                                modifier = Modifier
+                                    .width(16.dp)
+                                    .height(2.5.dp)
+                                    .clip(CircleShape)
+                                    .background(OpenStreamTheme.colors.accent)
+                            )
+                            Spacer(modifier = Modifier.height(3.dp))
+                        } else {
+                            Spacer(modifier = Modifier.height(5.5.dp))
+                        }
+
                         Icon(
                             imageVector = icon,
                             contentDescription = item.contentDescription,
                             modifier = Modifier.size(22.dp),
                             tint = contentColor
                         )
+
+                        Spacer(modifier = Modifier.height(2.dp))
+
                         Text(
                             text = item.label,
                             style = OpenStreamTheme.typography.labelSmall,

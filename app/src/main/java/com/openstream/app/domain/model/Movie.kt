@@ -9,9 +9,15 @@ data class Movie(
     val genre: String,
     val synopsis: String,
     val posterUrl: String = "",
+    val backdropUrl: String = "",
     val heroImageUrl: String = "",
     val isPublicDomain: Boolean = true,
     val rating: String = "All Ages",
+    val country: String = "United States",
+    val leadCast: List<String> = emptyList(),
+    val restorationNote: String = "Digitally restored archival print",
+    val licenseStatus: String = "Public Domain (Worldwide)",
+    val playbackProgressPercentage: Float? = null,
     val isInWatchlist: Boolean = false,
     val isFavorite: Boolean = false
 )
@@ -28,5 +34,6 @@ enum class Genre(val key: String) {
 data class MovieCategory(
     val id: String,
     val title: String,
+    val subtitle: String = "",
     val movies: List<Movie>
 )

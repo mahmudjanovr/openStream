@@ -17,9 +17,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -45,6 +48,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.openstream.app.R
 import com.openstream.app.core.common.UiState
+import com.openstream.app.core.designsystem.component.OpenStreamBadge
+import com.openstream.app.core.designsystem.component.OpenStreamBadgeVariant
 import com.openstream.app.core.designsystem.component.OpenStreamEmptyState
 import com.openstream.app.core.designsystem.component.OpenStreamErrorState
 import com.openstream.app.core.designsystem.component.OpenStreamIconButton
@@ -52,6 +57,16 @@ import com.openstream.app.core.designsystem.component.OpenStreamLoadingIndicator
 import com.openstream.app.core.designsystem.component.OpenStreamMovieCard
 import com.openstream.app.core.designsystem.theme.OpenStreamTheme
 import com.openstream.app.domain.model.Movie
+
+private val quickSearchGenres = listOf(
+    "Silent Era",
+    "Film Noir",
+    "Sci-Fi & Horror",
+    "Comedy",
+    "Drama",
+    "Buster Keaton",
+    "Fritz Lang"
+)
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -71,7 +86,7 @@ fun SearchScreen(
             .background(OpenStreamTheme.colors.background)
             .statusBarsPadding()
     ) {
-        // Search Input Bar
+        // Luxury Search Input Bar
         SearchBarInput(
             query = query,
             onQueryChange = viewModel::onQueryChanged,
@@ -82,7 +97,38 @@ fun SearchScreen(
             }
         )
 
-        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.medium))
+        // Quick Movement Filters Row
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = OpenStreamTheme.spacing.small),
+            contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
+            horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.small)
+        ) {
+            items(quickSearchGenres) { genreTag ->
+                val shape = CircleShape
+                Box(
+                    modifier = Modifier
+                        .clip(shape)
+                        .background(OpenStreamTheme.colors.surface)
+                        .border(1.dp, OpenStreamTheme.colors.border, shape)
+                        .clickable {
+                            viewModel.onRecentSearchSelected(genreTag)
+                            focusManager.clearFocus()
+                        }
+                        .padding(horizontal = 14.dp, vertical = 7.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = genreTag,
+                        style = OpenStreamTheme.typography.labelMedium,
+                        color = OpenStreamTheme.colors.textSecondary
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
 
         // Main Body: Recent searches or Search results
         if (query.isBlank()) {
@@ -127,7 +173,8 @@ private fun SearchBarInput(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(shape)
-                .border(1.dp, OpenStreamTheme.colors.border, shape),
+                .background(OpenStreamTheme.colors.surface)
+                .border(1.dp, if (query.isNotBlank()) OpenStreamTheme.colors.accent else OpenStreamTheme.colors.border, shape),
             placeholder = {
                 Text(
                     text = stringResource(R.string.search_hint),
@@ -208,21 +255,21 @@ private fun RecentSearchesSection(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 recentSearches.forEach { search ->
-                    val shape = OpenStreamTheme.shapes.small
+                    val shape = CircleShape
                     Row(
                         modifier = Modifier
                             .clip(shape)
                             .background(OpenStreamTheme.colors.surfaceElevated)
                             .border(1.dp, OpenStreamTheme.colors.border, shape)
                             .clickable { onSelect(search) }
-                            .padding(horizontal = 12.dp, vertical = 8.dp),
+                            .padding(horizontal = 14.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             imageVector = Icons.Default.History,
                             contentDescription = null,
-                            tint = OpenStreamTheme.colors.textSecondary,
-                            modifier = Modifier.size(16.dp)
+                            tint = OpenStreamTheme.colors.accent,
+                            modifier = Modifier.size(15.dp)
                         )
                         Spacer(modifier = Modifier.size(OpenStreamTheme.spacing.small))
                         Text(
@@ -270,12 +317,12 @@ private fun SearchResultsSection(
             }
             is UiState.Success -> {
                 LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 140.dp),
+                    columns = GridCells.Adaptive(minSize = 144.dp),
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(
                         start = OpenStreamTheme.spacing.medium,
                         end = OpenStreamTheme.spacing.medium,
-                        bottom = 80.dp
+                        bottom = 88.dp
                     ),
                     horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium),
                     verticalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)

@@ -17,11 +17,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Gavel
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
@@ -44,6 +46,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.openstream.app.R
+import com.openstream.app.core.designsystem.component.OpenStreamBadge
+import com.openstream.app.core.designsystem.component.OpenStreamBadgeVariant
 import com.openstream.app.core.designsystem.component.OpenStreamTopBar
 import com.openstream.app.core.designsystem.theme.OpenStreamTheme
 import com.openstream.app.core.localization.AppLanguage
@@ -62,7 +66,10 @@ fun SettingsScreen(
             .fillMaxSize()
             .background(OpenStreamTheme.colors.background)
     ) {
-        OpenStreamTopBar(title = stringResource(R.string.settings_title))
+        OpenStreamTopBar(
+            title = stringResource(R.string.settings_title),
+            eyebrow = "SYSTEM & PREFERENCES"
+        )
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -81,6 +88,7 @@ fun SettingsScreen(
                         icon = Icons.Default.Language,
                         title = stringResource(R.string.settings_language),
                         subtitle = stringResource(currentLanguage.displayNameResId),
+                        badgeText = currentLanguage.code.uppercase(),
                         onClick = { showLanguageDialog = true }
                     )
                     HorizontalDivider(color = OpenStreamTheme.colors.border, thickness = 1.dp)
@@ -88,7 +96,8 @@ fun SettingsScreen(
                         icon = Icons.Default.DarkMode,
                         title = stringResource(R.string.settings_theme),
                         subtitle = stringResource(R.string.settings_theme_dark),
-                        onClick = { /* Theme toggle placeholder */ }
+                        badgeText = "ACTIVE",
+                        onClick = { /* Dark OTT is the primary aesthetic */ }
                     )
                 }
             }
@@ -99,24 +108,54 @@ fun SettingsScreen(
                 Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
                 SettingsCard {
                     Column(modifier = Modifier.padding(OpenStreamTheme.spacing.medium)) {
-                        Text(
-                            text = stringResource(R.string.app_name),
-                            style = OpenStreamTheme.typography.displaySmall,
-                            color = OpenStreamTheme.colors.textPrimary
-                        )
-                        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.extraSmall))
-                        Text(
-                            text = stringResource(R.string.tagline),
-                            style = OpenStreamTheme.typography.labelMedium,
-                            color = OpenStreamTheme.colors.accent
-                        )
-                        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .clip(CircleShape)
+                                    .background(OpenStreamTheme.colors.surfaceElevated)
+                                    .border(1.dp, OpenStreamTheme.colors.accent, CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Movie,
+                                    contentDescription = null,
+                                    tint = OpenStreamTheme.colors.accent,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(OpenStreamTheme.spacing.small))
+                            Column {
+                                Text(
+                                    text = stringResource(R.string.app_name),
+                                    style = OpenStreamTheme.typography.displaySmall,
+                                    color = OpenStreamTheme.colors.textPrimary
+                                )
+                                Text(
+                                    text = stringResource(R.string.tagline),
+                                    style = OpenStreamTheme.typography.eyebrow,
+                                    color = OpenStreamTheme.colors.accent
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.medium))
+
                         Text(
                             text = stringResource(R.string.settings_about_desc),
                             style = OpenStreamTheme.typography.bodyMedium,
                             color = OpenStreamTheme.colors.textSecondary
                         )
                     }
+
+                    HorizontalDivider(color = OpenStreamTheme.colors.border, thickness = 1.dp)
+
+                    SettingsRowItem(
+                        icon = Icons.Default.Gavel,
+                        title = "Copyright & Territory Verification",
+                        subtitle = stringResource(R.string.settings_copyright_pledge),
+                        onClick = { /* Copyright info */ }
+                    )
 
                     HorizontalDivider(color = OpenStreamTheme.colors.border, thickness = 1.dp)
 
@@ -133,6 +172,7 @@ fun SettingsScreen(
                         icon = Icons.Default.Info,
                         title = stringResource(R.string.settings_version),
                         subtitle = stringResource(R.string.settings_phase),
+                        badgeText = "v1.0.0",
                         onClick = { /* Version details */ }
                     )
                 }
@@ -157,7 +197,7 @@ fun SettingsScreen(
 private fun SettingsSectionHeader(title: String) {
     Text(
         text = title.uppercase(),
-        style = OpenStreamTheme.typography.labelSmall,
+        style = OpenStreamTheme.typography.eyebrow,
         color = OpenStreamTheme.colors.accent
     )
 }
@@ -183,6 +223,7 @@ private fun SettingsRowItem(
     icon: ImageVector,
     title: String,
     subtitle: String,
+    badgeText: String? = null,
     onClick: () -> Unit
 ) {
     Row(
@@ -215,6 +256,14 @@ private fun SettingsRowItem(
                 text = subtitle,
                 style = OpenStreamTheme.typography.bodySmall,
                 color = OpenStreamTheme.colors.textSecondary
+            )
+        }
+
+        if (badgeText != null) {
+            Spacer(modifier = Modifier.width(OpenStreamTheme.spacing.small))
+            OpenStreamBadge(
+                text = badgeText,
+                variant = OpenStreamBadgeVariant.Gold
             )
         }
     }

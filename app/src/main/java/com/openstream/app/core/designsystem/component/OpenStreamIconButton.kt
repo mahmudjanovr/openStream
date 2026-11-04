@@ -1,10 +1,12 @@
 package com.openstream.app.core.designsystem.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -27,16 +29,26 @@ fun OpenStreamIconButton(
     modifier: Modifier = Modifier,
     tint: Color = OpenStreamTheme.colors.textPrimary,
     containerColor: Color = Color.Transparent,
+    borderColor: Color? = null,
+    isCircle: Boolean = false,
     iconSize: Dp = 22.dp,
     enabled: Boolean = true
 ) {
     val minTarget = OpenStreamTheme.spacing.minTouchTarget
+    val shape = if (isCircle) CircleShape else OpenStreamTheme.shapes.small
+
+    val borderModifier = if (borderColor != null) {
+        Modifier.border(1.dp, borderColor, shape)
+    } else {
+        Modifier
+    }
 
     Box(
         modifier = modifier
             .size(minTarget)
-            .clip(OpenStreamTheme.shapes.small)
+            .clip(shape)
             .background(containerColor)
+            .then(borderModifier)
             .clickable(
                 enabled = enabled,
                 role = Role.Button,

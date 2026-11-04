@@ -1,6 +1,7 @@
 package com.openstream.app.core.navigation
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -10,15 +11,19 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.openstream.app.R
 import com.openstream.app.core.designsystem.component.OpenStreamBottomNavigation
 import com.openstream.app.core.designsystem.component.OpenStreamNavigationItem
 import com.openstream.app.core.di.AppContainer
 import com.openstream.app.core.localization.AppLanguage
+import com.openstream.app.feature.detail.MovieDetailScreen
+import com.openstream.app.feature.detail.MovieDetailViewModel
 import com.openstream.app.feature.discover.DiscoverScreen
 import com.openstream.app.feature.discover.DiscoverViewModel
 import com.openstream.app.feature.home.HomeScreen
@@ -64,6 +69,7 @@ fun OpenStreamApp(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
             if (showBottomBar) {
                 OpenStreamBottomNavigation(
@@ -127,8 +133,8 @@ fun OpenStreamApp(
                 )
                 HomeScreen(
                     viewModel = homeViewModel,
-                    onMovieClick = { _ ->
-                        // Future Phase: movie detail & playback
+                    onMovieClick = { movie ->
+                        navController.navigate(OpenStreamDestinations.movieDetailRoute(movie.id))
                     }
                 )
             }
@@ -140,8 +146,8 @@ fun OpenStreamApp(
                 )
                 DiscoverScreen(
                     viewModel = discoverViewModel,
-                    onMovieClick = { _ ->
-                        // Future Phase: movie detail & playback
+                    onMovieClick = { movie ->
+                        navController.navigate(OpenStreamDestinations.movieDetailRoute(movie.id))
                     }
                 )
             }
@@ -153,8 +159,8 @@ fun OpenStreamApp(
                 )
                 SearchScreen(
                     viewModel = searchViewModel,
-                    onMovieClick = { _ ->
-                        // Future Phase: movie detail & playback
+                    onMovieClick = { movie ->
+                        navController.navigate(OpenStreamDestinations.movieDetailRoute(movie.id))
                     }
                 )
             }
@@ -166,8 +172,17 @@ fun OpenStreamApp(
                 )
                 LibraryScreen(
                     viewModel = libraryViewModel,
-                    onMovieClick = { _ ->
-                        // Future Phase: movie detail & playback
+                    onMovieClick = { movie ->
+                        navController.navigate(OpenStreamDestinations.movieDetailRoute(movie.id))
+                    },
+                    onExploreCatalog = {
+                        navController.navigate(OpenStreamDestinations.DISCOVER) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
                 )
             }
@@ -180,6 +195,30 @@ fun OpenStreamApp(
                 SettingsScreen(
                     viewModel = settingsViewModel,
                     onLanguageChange = onLanguageChange
+                )
+            }
+
+            // Movie Detail Destination
+            composable(
+                route = OpenStreamDestinations.MOVIE_DETAIL,
+                arguments = listOf(
+                    navArgument("movieId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val movieId = backStackEntry.arguments?.getString("movieId") ?: ""
+                val detailViewModel: MovieDetailViewModel = viewModel(
+                    factory = MovieDetailViewModel.provideFactory(
+                        movieId = movieId,
+                        catalogRepository = appContainer.movieCatalogRepository,
+                        libraryRepository = appContainer.libraryRepository
+                    )
+                )
+                MovieDetailScreen(
+                    viewModel = detailViewModel,
+                    onNavigateBack = { navController.popBackStack() },
+                    onRelatedMovieClick = { relatedMovie ->
+                        navController.navigate(OpenStreamDestinations.movieDetailRoute(relatedMovie.id))
+                    }
                 )
             }
         }
