@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -26,11 +27,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -40,11 +43,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.openstream.app.R
 import com.openstream.app.core.common.UiState
 import com.openstream.app.core.designsystem.colors.HeroOverlayGradient
@@ -66,9 +75,11 @@ fun MovieDetailScreen(
     viewModel: MovieDetailViewModel,
     onNavigateBack: () -> Unit,
     onRelatedMovieClick: (Movie) -> Unit,
+    onWatchClick: (Movie) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val downloadState by viewModel.downloadState.collectAsState()
 
     Box(
         modifier = modifier
@@ -96,8 +107,12 @@ fun MovieDetailScreen(
             is UiState.Success -> {
                 MovieDetailContent(
                     data = state.data,
+                    downloadItem = downloadState,
+                    onWatchClick = { onWatchClick(state.data.movie) },
                     onToggleWatchlist = { viewModel.toggleWatchlist(state.data.movie) },
                     onToggleFavorite = { viewModel.toggleFavorite(state.data.movie) },
+                    onDownloadClick = { viewModel.startDownload(state.data.movie) },
+                    onDeleteDownload = { viewModel.deleteDownload(state.data.movie.id) },
                     onNavigateBack = onNavigateBack,
                     onRelatedMovieClick = onRelatedMovieClick
                 )
@@ -110,29 +125,61 @@ fun MovieDetailScreen(
 @Composable
 private fun MovieDetailContent(
     data: MovieDetailData,
+    downloadItem: com.openstream.app.domain.model.DownloadedMovie?,
+    onWatchClick: () -> Unit,
     onToggleWatchlist: () -> Unit,
     onToggleFavorite: () -> Unit,
+    onDownloadClick: () -> Unit,
+    onDeleteDownload: () -> Unit,
     onNavigateBack: () -> Unit,
     onRelatedMovieClick: (Movie) -> Unit
 ) {
     val movie = data.movie
+    val context = LocalContext.current
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(bottom = 56.dp)
         ) {
-            // Backdrop Header
+            // Cinematic Backdrop & Overlapping Poster Header
             item {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(300.dp)
+                        .height(320.dp)
                 ) {
-                    OpenStreamPosterPlaceholder(
-                        title = movie.title,
-                        modifier = Modifier.fillMaxSize()
-                    )
+                    val backdropImage = movie.backdropUrl.ifBlank { movie.posterUrl }
+                    if (backdropImage.isNotBlank()) {
+                        SubcomposeAsyncImage(
+                            model = ImageRequest.Builder(context)
+                                .data(backdropImage)
+                                .crossfade(250)
+                                .diskCachePolicy(CachePolicy.ENABLED)
+                                .memoryCachePolicy(CachePolicy.ENABLED)
+                                .build(),
+                            contentDescription = movie.title,
+                            contentScale = ContentScale.Crop,
+                            loading = {
+                                OpenStreamPosterPlaceholder(
+                                    title = movie.title,
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            },
+                            error = {
+                                OpenStreamPosterPlaceholder(
+                                    title = movie.title,
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            },
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    } else {
+                        OpenStreamPosterPlaceholder(
+                            title = movie.title,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
 
                     // Scrim gradient
                     Box(
@@ -140,6 +187,51 @@ private fun MovieDetailContent(
                             .fillMaxSize()
                             .background(HeroOverlayGradient)
                     )
+
+                    // Overlapping luxury poster badge
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(start = OpenStreamTheme.spacing.medium, bottom = 16.dp)
+                            .width(100.dp)
+                            .aspectRatio(2f / 3f)
+                            .shadow(8.dp, OpenStreamTheme.shapes.medium)
+                            .clip(OpenStreamTheme.shapes.medium)
+                            .background(OpenStreamTheme.colors.surfaceElevated)
+                            .border(1.dp, OpenStreamTheme.colors.accent.copy(alpha = 0.5f), OpenStreamTheme.shapes.medium)
+                    ) {
+                        val posterImage = movie.posterUrl.ifBlank { movie.backdropUrl }
+                        if (posterImage.isNotBlank()) {
+                            SubcomposeAsyncImage(
+                                model = ImageRequest.Builder(context)
+                                    .data(posterImage)
+                                    .crossfade(250)
+                                    .diskCachePolicy(CachePolicy.ENABLED)
+                                    .memoryCachePolicy(CachePolicy.ENABLED)
+                                    .build(),
+                                contentDescription = movie.title,
+                                contentScale = ContentScale.Crop,
+                                loading = {
+                                    OpenStreamPosterPlaceholder(
+                                        title = movie.title,
+                                        modifier = Modifier.fillMaxSize()
+                                    )
+                                },
+                                error = {
+                                    OpenStreamPosterPlaceholder(
+                                        title = movie.title,
+                                        modifier = Modifier.fillMaxSize()
+                                    )
+                                },
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        } else {
+                            OpenStreamPosterPlaceholder(
+                                title = movie.title,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                    }
                 }
             }
 
@@ -167,10 +259,12 @@ private fun MovieDetailContent(
                             text = "${movie.year}",
                             variant = OpenStreamBadgeVariant.Subtle
                         )
-                        OpenStreamBadge(
-                            text = "${movie.durationMinutes} MIN",
-                            variant = OpenStreamBadgeVariant.Subtle
-                        )
+                        if (movie.durationMinutes > 0) {
+                            OpenStreamBadge(
+                                text = "${movie.durationMinutes} MIN",
+                                variant = OpenStreamBadgeVariant.Subtle
+                            )
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
@@ -181,7 +275,7 @@ private fun MovieDetailContent(
                         color = OpenStreamTheme.colors.textPrimary
                     )
 
-                    Spacer(modifier = Modifier.height(2.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
                         text = "${stringResource(R.string.detail_director, movie.director)} • ${movie.genre} • ${movie.country}",
@@ -189,9 +283,20 @@ private fun MovieDetailContent(
                         color = OpenStreamTheme.colors.accent
                     )
 
-                    Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.large))
+                    Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.medium))
 
-                    // Action buttons (Watchlist & Favorite toggles)
+                    // Primary Action: WATCH NOW
+                    OpenStreamButton(
+                        text = stringResource(R.string.detail_action_watch_now),
+                        onClick = onWatchClick,
+                        leadingIcon = Icons.Default.PlayArrow,
+                        variant = OpenStreamButtonVariant.Primary,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
+
+                    // Secondary Actions: Watchlist & Favorite Toggles
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.small)
@@ -214,6 +319,39 @@ private fun MovieDetailContent(
                             leadingIcon = if (data.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                             variant = if (data.isFavorite) OpenStreamButtonVariant.Primary else OpenStreamButtonVariant.Outlined,
                             modifier = Modifier.weight(1f)
+                        )
+                    }
+
+                    // Offline Download Action (if eligible)
+                    if (com.openstream.app.domain.model.DownloadedMovie.isDownloadEligible(movie)) {
+                        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
+                        val isDownloaded = downloadItem?.isCompleted == true
+                        val isDownloading = downloadItem?.isDownloading == true
+
+                        val buttonText = when {
+                            isDownloaded -> stringResource(R.string.download_status_completed)
+                            isDownloading -> "${stringResource(R.string.download_status_downloading)} (${((downloadItem?.progressPercentage ?: 0f) * 100).toInt()}%)"
+                            else -> stringResource(R.string.download_button)
+                        }
+
+                        val buttonIcon = when {
+                            isDownloaded -> Icons.Default.CheckCircle
+                            isDownloading -> Icons.Default.Download
+                            else -> Icons.Default.Download
+                        }
+
+                        OpenStreamButton(
+                            text = buttonText,
+                            onClick = {
+                                if (isDownloaded) {
+                                    onDeleteDownload()
+                                } else if (!isDownloading) {
+                                    onDownloadClick()
+                                }
+                            },
+                            leadingIcon = buttonIcon,
+                            variant = if (isDownloaded) OpenStreamButtonVariant.Pill else OpenStreamButtonVariant.Outlined,
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
 
@@ -256,7 +394,8 @@ private fun MovieDetailContent(
                     Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
                     PreservationCard(
                         licenseStatus = movie.licenseStatus,
-                        restorationNote = movie.restorationNote
+                        restorationNote = movie.restorationNote,
+                        sourceName = movie.movieSource.displayName
                     )
                 }
             }
@@ -363,7 +502,8 @@ private fun CastMemberPill(name: String) {
 @Composable
 private fun PreservationCard(
     licenseStatus: String,
-    restorationNote: String
+    restorationNote: String,
+    sourceName: String = "Internet Archive"
 ) {
     val shape = OpenStreamTheme.shapes.medium
     Column(
@@ -383,7 +523,7 @@ private fun PreservationCard(
             )
             Spacer(modifier = Modifier.width(OpenStreamTheme.spacing.small))
             Text(
-                text = licenseStatus,
+                text = "$licenseStatus • $sourceName",
                 style = OpenStreamTheme.typography.labelLarge,
                 color = OpenStreamTheme.colors.accent
             )

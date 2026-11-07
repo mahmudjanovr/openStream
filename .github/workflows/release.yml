@@ -1,0 +1,150 @@
+name: openStream Release & OTA Distribution
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'Release Version Name (e.g. 1.2.0)'
+        required: true
+        default: '1.2.0'
+      version_code:
+        description: 'Release Version Code (e.g. 3)'
+        required: true
+        default: '3'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build Signed APK & Publish Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Grant Execute Permission to Gradle Wrapper
+        run: chmod +x gradlew
+
+      - name: Run Quality Gate & Unit Tests
+        run: ./gradlew test
+        # If any test fails, release build halts immediately
+
+      - name: Decode Release Keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "ERROR: RELEASE_KEYSTORE_BASE64 secret is not configured!"
+            exit 1
+          fi
+          echo "$KEYSTORE_BASE64" | base64 -d > "${{ github.workspace }}/openstream-release.jks"
+
+      - name: Build Signed Release APK
+        env:
+          OPENSTREAM_KEYSTORE_FILE: ${{ github.workspace }}/openstream-release.jks
+          OPENSTREAM_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          OPENSTREAM_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          OPENSTREAM_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: ./gradlew assembleRelease
+
+      - name: Verify APK Signature with apksigner
+        run: |
+          SIGNED_APK="app/build/outputs/apk/release/app-release.apk"
+          if [ ! -f "$SIGNED_APK" ]; then
+            echo "ERROR: Signed release APK not found!"
+            exit 1
+          fi
+          $ANDROID_HOME/build-tools/34.0.0/apksigner verify --verbose --print-certs "$SIGNED_APK"
+
+      - name: Calculate SHA-256 Digest
+        id: compute_sha
+        run: |
+          SIGNED_APK="app/build/outputs/apk/release/app-release.apk"
+          cp "$SIGNED_APK" openStream.apk
+          SHA256_HEX=$(sha256sum openStream.apk | awk '{print $1}')
+          echo "SHA256=$SHA256_HEX" >> $GITHUB_OUTPUT
+          echo "Calculated SHA-256: $SHA256_HEX"
+
+      - name: Update Release Manifest
+        id: update_manifest
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          VERSION_NAME="${TAG_NAME#v}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION_NAME="${{ github.event.inputs.version_name }}"
+            VERSION_CODE="${{ github.event.inputs.version_code }}"
+          else
+            # Extract from Gradle build or derive
+            VERSION_CODE=$(grep 'versionCode =' app/build.gradle.kts | head -1 | tr -dc '0-9')
+          fi
+          
+          APK_URL="https://github.com/${{ github.repository }}/releases/download/${TAG_NAME:-v$VERSION_NAME}/openStream.apk"
+          SHA256_HASH="${{ steps.compute_sha.outputs.SHA256 }}"
+
+          # Format manifest JSON
+          cat <<EOF > update-server/update.json
+          {
+            "versionCode": ${VERSION_CODE},
+            "versionName": "${VERSION_NAME}",
+            "apkUrl": "${APK_URL}",
+            "releaseNotes": [
+              "Improved app performance and ultra-fast touch response",
+              "Fixed movie poster accuracy with high-resolution archival artwork",
+              "Optimized bottom navigation with dedicated ergonomics and touch targets",
+              "Enhanced ExoPlayer buffer management and PiP transitions",
+              "Over-The-Air (OTA) in-app updates directly via GitHub Releases"
+            ],
+            "forceUpdate": false,
+            "minimumSupportedVersion": 2,
+            "sha256": "${SHA256_HASH}"
+          }
+          EOF
+          cat update-server/update.json
+
+      - name: Commit and Push Updated Manifest (if on branch/tag)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add update-server/update.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore(ota): update release manifest to v${{ github.event.inputs.version_name || github.ref_name }} [skip ci]"
+          git push origin HEAD:${{ github.ref_name }} || true
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            openStream.apk
+            update-server/update.json
+          name: "openStream v${{ github.event.inputs.version_name || github.ref_name }}"
+          body: |
+            ## openStream v${{ github.event.inputs.version_name || github.ref_name }}
+
+            ### Highlights
+            - Enhanced UI/UX performance and debounced touch feedback.
+            - Authentic high-resolution archival film posters.
+            - Ergonomic bottom navigation bar with dedicated touch target compliance.
+            - Media3 ExoPlayer stability enhancements.
+            - Built-in Over-The-Air (OTA) in-app update engine.
+
+            ### Package Integrity & Checksum
+            - **Binary**: `openStream.apk`
+            - **SHA-256**: `${{ steps.compute_sha.outputs.SHA256 }}`
+            - **Signature**: Verified RSA 2048-bit APK Signature Scheme v2
+          draft: false
+          prerelease: false

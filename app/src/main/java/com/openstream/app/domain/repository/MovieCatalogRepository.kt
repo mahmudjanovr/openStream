@@ -3,6 +3,7 @@ package com.openstream.app.domain.repository
 import com.openstream.app.domain.model.Genre
 import com.openstream.app.domain.model.Movie
 import com.openstream.app.domain.model.MovieCategory
+import com.openstream.app.domain.model.MovieDetails
 import kotlinx.coroutines.flow.Flow
 
 interface MovieCatalogRepository {
@@ -18,4 +19,9 @@ interface MovieCatalogRepository {
     fun getRecentSearches(): Flow<List<String>>
     suspend fun addRecentSearch(query: String)
     suspend fun clearRecentSearches()
+
+    // Enhanced real API & detail methods
+    fun getMovieDetails(movieId: String): Flow<MovieDetails?>
+    suspend fun resolveStreamUrl(movie: Movie): String
+    fun searchLiveCatalog(query: String): Flow<List<Movie>>
 }

@@ -28,5 +28,7 @@ class OpenStreamNavigationTest {
         assertEquals("onboarding", OpenStreamDestinations.ONBOARDING)
         assertEquals("movie_detail/{movieId}", OpenStreamDestinations.MOVIE_DETAIL)
         assertEquals("movie_detail/movie-123", OpenStreamDestinations.movieDetailRoute("movie-123"))
+        assertEquals("player/{movieId}", OpenStreamDestinations.PLAYER)
+        assertEquals("player/movie-123", OpenStreamDestinations.playerRoute("movie-123"))
     }
 }

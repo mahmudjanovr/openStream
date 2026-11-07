@@ -2,6 +2,7 @@ package com.openstream.app.feature.search
 
 import com.openstream.app.core.common.UiState
 import com.openstream.app.data.repository.MovieCatalogRepositoryImpl
+import com.openstream.app.fake.FakeArchiveApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -25,7 +26,7 @@ class SearchViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        catalogRepo = MovieCatalogRepositoryImpl()
+        catalogRepo = MovieCatalogRepositoryImpl(apiService = FakeArchiveApiService(), ioDispatcher = testDispatcher)
         viewModel = SearchViewModel(catalogRepo)
     }
 
@@ -61,6 +62,25 @@ class SearchViewModelTest {
 
         viewModel.clearQuery()
         assertEquals("", viewModel.query.value)
+        assertTrue(viewModel.searchState.value is UiState.Empty)
+    }
+
+    @Test
+    fun suggestions_matchesTitlesPrefix() = runTest(testDispatcher) {
+        testDispatcher.scheduler.advanceUntilIdle()
+        viewModel.onQueryChanged("Metro")
+        advanceTimeBy(350)
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertTrue(viewModel.searchSuggestions.value.any { it.contains("Metropolis", ignoreCase = true) })
+    }
+
+    @Test
+    fun emptyQuery_returnsEmptyState() = runTest(testDispatcher) {
+        viewModel.onQueryChanged("   ")
+        advanceTimeBy(350)
+        testDispatcher.scheduler.advanceUntilIdle()
+
         assertTrue(viewModel.searchState.value is UiState.Empty)
     }
 }

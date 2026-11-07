@@ -23,8 +23,10 @@ object OpenStreamDestinations {
     const val LIBRARY = "library"
     const val SETTINGS = "settings"
     const val MOVIE_DETAIL = "movie_detail/{movieId}"
+    const val PLAYER = "player/{movieId}"
 
     fun movieDetailRoute(movieId: String): String = "movie_detail/$movieId"
+    fun playerRoute(movieId: String): String = "player/$movieId"
 }
 
 val TopLevelNavItems = listOf(

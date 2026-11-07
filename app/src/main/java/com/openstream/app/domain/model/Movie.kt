@@ -19,7 +19,11 @@ data class Movie(
     val licenseStatus: String = "Public Domain (Worldwide)",
     val playbackProgressPercentage: Float? = null,
     val isInWatchlist: Boolean = false,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val streamUrl: String = "",
+    val movieSource: MovieSource = MovieSource.INTERNET_ARCHIVE,
+    val streams: List<MovieStream> = emptyList(),
+    val metadata: MovieMetadata? = null
 )
 
 enum class Genre(val key: String) {
@@ -28,7 +32,11 @@ enum class Genre(val key: String) {
     NOIR("noir"),
     SCIFI_HORROR("scifi_horror"),
     COMEDY("comedy"),
-    DRAMA("drama")
+    DRAMA("drama");
+
+    companion object {
+        fun fromKey(key: String): Genre = values().firstOrNull { it.key == key } ?: ALL
+    }
 }
 
 data class MovieCategory(

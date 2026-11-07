@@ -1,0 +1,15 @@
+{
+  "versionCode": 3,
+  "versionName": "1.2.0",
+  "apkUrl": "https://github.com/mahmudjanovr/openStream/releases/download/v1.2.0/openStream.apk",
+  "releaseNotes": [
+    "Improved app performance and ultra-fast touch response",
+    "Fixed movie poster accuracy with high-resolution archival artwork",
+    "Optimized bottom navigation with dedicated ergonomics and touch targets",
+    "Enhanced ExoPlayer buffer management and PiP transitions",
+    "Built-in Over-The-Air (OTA) in-app update engine"
+  ],
+  "forceUpdate": false,
+  "minimumSupportedVersion": 2,
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

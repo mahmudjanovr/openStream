@@ -1,6 +1,7 @@
 package com.openstream.app.data.repository
 
 import com.openstream.app.domain.model.Movie
+import com.openstream.app.fake.FakeArchiveApiService
 import com.openstream.app.fake.TestUserPreferencesRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -31,7 +32,7 @@ class LibraryRepositoryTest {
     fun setup() {
         fallbackRepository = LibraryRepositoryImpl()
         testUserPrefs = TestUserPreferencesRepository()
-        catalogRepository = MovieCatalogRepositoryImpl(testUserPrefs)
+        catalogRepository = MovieCatalogRepositoryImpl(testUserPrefs, FakeArchiveApiService())
         persistentRepository = LibraryRepositoryImpl(testUserPrefs, catalogRepository)
     }
 

@@ -3,6 +3,7 @@ package com.openstream.app.feature.home
 import com.openstream.app.core.common.UiState
 import com.openstream.app.data.repository.LibraryRepositoryImpl
 import com.openstream.app.data.repository.MovieCatalogRepositoryImpl
+import com.openstream.app.fake.FakeArchiveApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -27,7 +28,7 @@ class HomeViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        catalogRepo = MovieCatalogRepositoryImpl()
+        catalogRepo = MovieCatalogRepositoryImpl(apiService = FakeArchiveApiService(), ioDispatcher = testDispatcher)
         libraryRepo = LibraryRepositoryImpl()
         viewModel = HomeViewModel(catalogRepo, libraryRepo)
     }

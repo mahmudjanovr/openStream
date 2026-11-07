@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.PrivacyTip
+import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -51,15 +52,33 @@ import com.openstream.app.core.designsystem.component.OpenStreamBadgeVariant
 import com.openstream.app.core.designsystem.component.OpenStreamTopBar
 import com.openstream.app.core.designsystem.theme.OpenStreamTheme
 import com.openstream.app.core.localization.AppLanguage
+import com.openstream.app.feature.profile.ProfileSwitchDialog
+import com.openstream.app.feature.profile.getAvatarIcon
 
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
     onLanguageChange: (AppLanguage) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCheckForUpdates: (() -> Unit)? = null
 ) {
     val currentLanguage by viewModel.currentLanguage.collectAsState()
+    val activeProfile by viewModel.activeProfile.collectAsState()
+    val profiles by viewModel.profiles.collectAsState()
+
     var showLanguageDialog by remember { mutableStateOf(false) }
+    var showProfileDialog by remember { mutableStateOf(false) }
+
+    if (showProfileDialog) {
+        ProfileSwitchDialog(
+            profiles = profiles,
+            activeProfile = activeProfile,
+            onSelectProfile = viewModel::switchProfile,
+            onCreateProfile = viewModel::createProfile,
+            onDeleteProfile = viewModel::deleteProfile,
+            onDismiss = { showProfileDialog = false }
+        )
+    }
 
     Column(
         modifier = modifier
@@ -79,6 +98,21 @@ fun SettingsScreen(
             ),
             verticalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.large)
         ) {
+            // User Profiles & Personalization Section
+            item {
+                SettingsSectionHeader(title = stringResource(R.string.profile_section_title))
+                Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
+                SettingsCard {
+                    SettingsRowItem(
+                        icon = getAvatarIcon(activeProfile.avatarId),
+                        title = activeProfile.name,
+                        subtitle = "${profiles.size} ${stringResource(R.string.profile_count_suffix)}",
+                        badgeText = stringResource(R.string.profile_action_switch),
+                        onClick = { showProfileDialog = true }
+                    )
+                }
+            }
+
             // Preferences Section
             item {
                 SettingsSectionHeader(title = stringResource(R.string.settings_section_general))
@@ -172,8 +206,17 @@ fun SettingsScreen(
                         icon = Icons.Default.Info,
                         title = stringResource(R.string.settings_version),
                         subtitle = stringResource(R.string.settings_phase),
-                        badgeText = "v1.0.0",
-                        onClick = { /* Version details */ }
+                        badgeText = "v${com.openstream.app.BuildConfig.VERSION_NAME}",
+                        onClick = { onCheckForUpdates?.invoke() }
+                    )
+
+                    HorizontalDivider(color = OpenStreamTheme.colors.border, thickness = 1.dp)
+
+                    SettingsRowItem(
+                        icon = Icons.Default.SystemUpdate,
+                        title = stringResource(R.string.settings_check_updates),
+                        subtitle = stringResource(R.string.settings_check_updates_desc),
+                        onClick = { onCheckForUpdates?.invoke() }
                     )
                 }
             }

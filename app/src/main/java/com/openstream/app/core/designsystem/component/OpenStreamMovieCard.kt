@@ -32,6 +32,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
+import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.openstream.app.R
 import com.openstream.app.core.designsystem.theme.OpenStreamTheme
@@ -80,17 +82,31 @@ fun OpenStreamMovieCard(
             val imageUrl = if (cardStyle == MovieCardStyle.Landscape && movie.backdropUrl.isNotBlank()) {
                 movie.backdropUrl
             } else {
-                movie.posterUrl
+                movie.posterUrl.ifBlank { movie.backdropUrl.ifBlank { movie.heroImageUrl } }
             }
 
             if (imageUrl.isNotBlank()) {
-                AsyncImage(
+                SubcomposeAsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(imageUrl)
-                        .crossfade(true)
+                        .crossfade(200)
+                        .diskCachePolicy(CachePolicy.ENABLED)
+                        .memoryCachePolicy(CachePolicy.ENABLED)
                         .build(),
                     contentDescription = stringResource(R.string.content_desc_movie_poster, movie.title),
                     contentScale = ContentScale.Crop,
+                    loading = {
+                        OpenStreamPosterPlaceholder(
+                            title = movie.title,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    },
+                    error = {
+                        OpenStreamPosterPlaceholder(
+                            title = movie.title,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    },
                     modifier = Modifier.fillMaxSize()
                 )
             } else {

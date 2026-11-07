@@ -59,6 +59,9 @@ class LibraryViewModelTest {
     fun selectTab_changesTab() {
         viewModel.selectTab(LibraryTab.FAVORITES)
         assertEquals(LibraryTab.FAVORITES, viewModel.selectedTab.value)
+
+        viewModel.selectTab(LibraryTab.DOWNLOADS)
+        assertEquals(LibraryTab.DOWNLOADS, viewModel.selectedTab.value)
     }
 
     @Test

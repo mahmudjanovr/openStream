@@ -10,3 +10,16 @@ captures/
 .cxx
 *.apk
 *.aab
+
+# Keystores, Signing Secrets & Backups (NEVER commit to VCS)
+*.jks
+*.keystore
+*.key
+*.enc
+keystore.properties
+signing.properties
+openstream-release.jks
+*backup*/
+*Backup*/
+openStream_Keystore_Backup/
+Upload_Package/

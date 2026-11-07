@@ -69,6 +69,7 @@
 
     <!-- Movie Details -->
     <string name="detail_title">Arxiv ma’lumotlari</string>
+    <string name="detail_action_watch_now">Tomosha qilish</string>
     <string name="detail_action_explore">Batafsil ma’lumot</string>
     <string name="detail_action_watchlist">Ro‘yxat</string>
     <string name="detail_action_in_watchlist">Ro‘yxatda</string>
@@ -78,13 +79,67 @@
     <string name="detail_section_cast">Bosh rollarda</string>
     <string name="detail_section_preservation">Ommaviy mulk va arxiv holati</string>
     <string name="detail_section_related">O‘xshash durdonalar</string>
-    <string name="detail_playback_notice">Restavratsiya qilingan arxiv nusxasi. Oqimli video ijrosi 3-bosqichda qo‘shiladi.</string>
+    <string name="detail_playback_notice">Ommaviy mulk durdonasi. Internet Archive orqali to‘g‘ridan-to‘g‘ri oqimli ijro.</string>
     <string name="detail_badge_public_domain">OMMAVIY MULK</string>
     <string name="detail_badge_restored">RESTAVRATSIYA QILINGAN HD</string>
     <string name="detail_director">Rejissyor: %1$s</string>
     <string name="detail_country">Mamlakat: %1$s</string>
     <string name="detail_share">Ulashish</string>
     <string name="detail_badge_year">%1$d</string>
+
+    <!-- Player -->
+    <string name="player_buffering">Arxiv oqimi yuklanmoqda…</string>
+    <string name="player_error_title">Ijro xatosi</string>
+    <string name="player_error_desc">Ushbu arxiv filmni ijro etib bo‘lmadi. Internet aloqasini tekshiring.</string>
+    <string name="player_retry">Qayta urinish</string>
+    <string name="player_fullscreen">To‘liq ekran</string>
+    <string name="player_rewind_10">10 soniya orqaga</string>
+    <string name="player_forward_10">10 soniya oldinga</string>
+    <string name="player_stream_info">Ommaviy mulk arxiv oqimi • 720p HD</string>
+    <string name="player_source_badge">Tasdiqlangan ommaviy mulk • Internet Archive</string>
+    <string name="player_subtitles">Subtitrlar</string>
+    <string name="player_subtitles_off">Subtitrlar o‘chiq</string>
+    <string name="player_audio_tracks">Ovozli yo‘laklar</string>
+    <string name="player_quality">Video sifati</string>
+    <string name="player_pip_mode">Rasmdan rasm (PiP)</string>
+
+    <!-- Offline & Downloads -->
+    <string name="library_tab_downloads">Yuklanmalar</string>
+    <string name="library_downloads_empty_title">Oflayn filmlar yo‘q</string>
+    <string name="library_downloads_empty_desc">Internetsiz istalgan vaqtda tomosha qilish uchun ommaviy mulk durdonalarini yuklab oling.</string>
+    <string name="download_status_completed">Yuklandi</string>
+    <string name="download_status_downloading">Yuklanmoqda</string>
+    <string name="download_status_paused">Pauzada</string>
+    <string name="download_status_failed">Yuklashda xatolik</string>
+    <string name="download_button">Oflayn uchun yuklab olish</string>
+    <string name="action_delete_download">Yuklanmani o‘chirish</string>
+    <string name="action_pause">Pauza</string>
+    <string name="action_resume">Davom ettirish</string>
+    <string name="offline_mode_active_banner">Oflayn rejim • Mahalliy xotiradan ijro etilmoqda</string>
+
+    <!-- Profiles & Personalization -->
+    <string name="profile_section_title">Profillar va shaxsiylashtirish</string>
+    <string name="profile_count_suffix">ta profil sozlangan</string>
+    <string name="profile_action_switch">ALMASHTIRISH</string>
+    <string name="profile_dialog_title">Profilni tanlang</string>
+    <string name="profile_dialog_desc">Tomosha ro‘yxati, sevimlilar va tavsiyalar har bir profil uchun to‘liq alohida saqlanadi.</string>
+    <string name="profile_badge_default">ASOSIY</string>
+    <string name="action_delete_profile">Profilni o‘chirish</string>
+    <string name="profile_add_button">Yangi profil</string>
+    <string name="profile_create_title">Yangi profil yaratish</string>
+    <string name="profile_name_label">Profil nomi</string>
+    <string name="profile_avatar_label">Kino-avatarni tanlang</string>
+    <string name="profile_preferred_genres_label">Sevimli janrlar</string>
+
+    <!-- Recommendations -->
+    <string name="home_section_recommended_for_you">Siz uchun tavsiyalar</string>
+    <string name="home_section_because_you_watched">Ko‘rganingiz asosida</string>
+    <string name="home_section_hidden_gems">Yashirin durdonalar</string>
+
+    <!-- Common UI -->
+    <string name="common_create">Yaratish</string>
+    <string name="common_close">Yopish</string>
+    <string name="common_cancel">Bekor qilish</string>
 
     <!-- Settings -->
     <string name="settings_title">Sozlamalar</string>
@@ -103,6 +158,26 @@
     <string name="settings_copyright_pledge">Katalogdagi barcha filmlar huquqiy tekshiruvdan o‘tkazilgan bo‘lib, to‘liq ommaviy mulk hisoblanadi.</string>
     <string name="settings_version">Versiya</string>
     <string name="settings_phase">2-bosqich: To‘liq OTT dizayn talqini</string>
+    <string name="settings_check_updates">Yangilanishlarni tekshirish</string>
+    <string name="settings_check_updates_desc">openStream ning eng so‘nggi talqinini serverdan tekshirish</string>
+
+    <!-- OTA In-App Updates -->
+    <string name="update_available_title">Yangi versiya mavjud</string>
+    <string name="update_available_subtitle">openStream ning yangi versiyasi (%1$s) yuklab olish uchun tayyor.</string>
+    <string name="update_release_notes_title">Yangi imkoniyatlar</string>
+    <string name="update_action_update">Yangilash</string>
+    <string name="update_action_later">Keyinroq</string>
+    <string name="update_action_install">O‘rnatish</string>
+    <string name="update_action_retry">Qayta urinish</string>
+    <string name="update_status_downloading">Yangilanish yuklanmoqda… %1$d%%</string>
+    <string name="update_status_verifying">Xavfsizlik va yaxlitlik tekshirilmoqda (SHA-256)…</string>
+    <string name="update_status_ready">Yangilanish tayyor. O‘rnatishni boshlang.</string>
+    <string name="update_forced_badge">MAJBURIY YANGILANISH</string>
+    <string name="update_optional_badge">YANGI TALQIN MAVJUD</string>
+    <string name="update_permission_required">openStream yangilanishlarini o‘rnatish uchun ruxsat talab qilinadi. Tizim sozlamalarida ruxsat bering.</string>
+    <string name="update_grant_permission">Sozlamalarni ochish</string>
+    <string name="update_no_update_toast">Siz eng so‘nggi openStream versiyasidan foydalanmoqdasiz.</string>
+    <string name="update_download_progress">%1$.1f MB / %2$.1f MB (%3$d%%)</string>
 
     <!-- Common UI -->
     <string name="common_loading">Arxiv yuklanmoqda…</string>

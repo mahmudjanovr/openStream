@@ -3,6 +3,7 @@ package com.openstream.app.feature.discover
 import com.openstream.app.core.common.UiState
 import com.openstream.app.data.repository.MovieCatalogRepositoryImpl
 import com.openstream.app.domain.model.Genre
+import com.openstream.app.fake.FakeArchiveApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -25,7 +26,10 @@ class DiscoverViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        catalogRepo = MovieCatalogRepositoryImpl()
+        catalogRepo = MovieCatalogRepositoryImpl(
+            apiService = FakeArchiveApiService(),
+            ioDispatcher = testDispatcher
+        )
         viewModel = DiscoverViewModel(catalogRepo)
     }
 
@@ -47,6 +51,8 @@ class DiscoverViewModelTest {
 
     @Test
     fun selectGenre_updatesSelectionAndFilters() = runTest(testDispatcher) {
+        testDispatcher.scheduler.advanceUntilIdle()
+
         viewModel.selectGenre(Genre.COMEDY)
         testDispatcher.scheduler.advanceUntilIdle()
 
@@ -55,5 +61,34 @@ class DiscoverViewModelTest {
         assertTrue(state.moviesState is UiState.Success)
         val movies = (state.moviesState as UiState.Success).data
         assertTrue(movies.all { it.genre == "Comedy" })
+    }
+
+    @Test
+    fun selectEra_filtersMoviesByYear() = runTest(testDispatcher) {
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        viewModel.selectEra(EraFilter.SILENT)
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        val state = viewModel.uiState.value
+        assertEquals(EraFilter.SILENT, state.selectedEra)
+        assertTrue(state.moviesState is UiState.Success)
+        val movies = (state.moviesState as UiState.Success).data
+        assertTrue(movies.all { it.year <= 1929 })
+    }
+
+    @Test
+    fun selectSortOrder_sortsAlphabetically() = runTest(testDispatcher) {
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        viewModel.selectSortOrder(SortOrder.TITLE_ASC)
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        val state = viewModel.uiState.value
+        assertEquals(SortOrder.TITLE_ASC, state.sortOrder)
+        assertTrue(state.moviesState is UiState.Success)
+        val movies = (state.moviesState as UiState.Success).data
+        val titles = movies.map { it.title.lowercase() }
+        assertEquals(titles.sorted(), titles)
     }
 }

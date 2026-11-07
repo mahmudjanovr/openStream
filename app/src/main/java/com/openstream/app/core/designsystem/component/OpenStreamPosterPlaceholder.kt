@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.openstream.app.core.designsystem.theme.OpenStreamTheme
 
@@ -91,10 +92,11 @@ fun OpenStreamPosterPlaceholder(
 
             Text(
                 text = title,
-                style = OpenStreamTheme.typography.displaySmall,
+                style = OpenStreamTheme.typography.titleMedium,
                 color = OpenStreamTheme.colors.textPrimary,
                 textAlign = TextAlign.Center,
-                maxLines = 2
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
         }
 

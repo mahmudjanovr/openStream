@@ -1,6 +1,7 @@
 package com.openstream.app.data.repository
 
 import com.openstream.app.domain.model.Genre
+import com.openstream.app.fake.FakeArchiveApiService
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -15,7 +16,7 @@ class MovieCatalogRepositoryTest {
 
     @Before
     fun setup() {
-        repository = MovieCatalogRepositoryImpl()
+        repository = MovieCatalogRepositoryImpl(apiService = FakeArchiveApiService())
     }
 
     @Test
@@ -89,5 +90,24 @@ class MovieCatalogRepositoryTest {
         val related = repository.getRelatedMovies("metropolis-1927").first()
         assertTrue(related.isNotEmpty())
         assertTrue(related.none { it.id == "metropolis-1927" })
+    }
+
+    @Test
+    fun getMovieDetails_returnsDetailedDataWithStreams() = runTest {
+        val details = repository.getMovieDetails("metropolis-1927").first()
+        assertNotNull(details)
+        assertEquals("Metropolis", details?.movie?.title)
+        assertTrue(details?.availableStreams?.isNotEmpty() == true)
+        assertTrue(details?.availableStreams?.first()?.url?.endsWith(".mp4") == true)
+        assertTrue(details?.isVerifiedPublicDomain == true)
+    }
+
+    @Test
+    fun resolveStreamUrl_returnsPlayableMp4() = runTest {
+        val movie = repository.getMovieById("his-girl-friday-1940").first()
+        assertNotNull(movie)
+        val streamUrl = repository.resolveStreamUrl(movie!!)
+        assertTrue(streamUrl.isNotBlank())
+        assertTrue(streamUrl.endsWith(".mp4"))
     }
 }

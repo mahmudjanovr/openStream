@@ -69,6 +69,7 @@
 
     <!-- Movie Details -->
     <string name="detail_title">Archival Record</string>
+    <string name="detail_action_watch_now">Watch Now</string>
     <string name="detail_action_explore">Explore Details</string>
     <string name="detail_action_watchlist">Watchlist</string>
     <string name="detail_action_in_watchlist">In Watchlist</string>
@@ -78,13 +79,67 @@
     <string name="detail_section_cast">Principal Cast</string>
     <string name="detail_section_preservation">Public Domain &amp; Archival Status</string>
     <string name="detail_section_related">Related Masterworks</string>
-    <string name="detail_playback_notice">Archival restored print. Continuous streaming playback integration scheduled for Phase 3.</string>
+    <string name="detail_playback_notice">Pristine public-domain archival masterwork. Streaming directly via Internet Archive integration.</string>
     <string name="detail_badge_public_domain">PUBLIC DOMAIN</string>
     <string name="detail_badge_restored">RESTORED HD</string>
     <string name="detail_director">Director: %1$s</string>
     <string name="detail_country">Origin: %1$s</string>
     <string name="detail_share">Share</string>
     <string name="detail_badge_year">%1$d</string>
+
+    <!-- Player -->
+    <string name="player_buffering">Buffering archival stream…</string>
+    <string name="player_error_title">Stream Error</string>
+    <string name="player_error_desc">Unable to stream this public-domain masterwork. Please verify your internet connection.</string>
+    <string name="player_retry">Retry Playback</string>
+    <string name="player_fullscreen">Toggle Fullscreen</string>
+    <string name="player_rewind_10">Rewind 10 seconds</string>
+    <string name="player_forward_10">Fast forward 10 seconds</string>
+    <string name="player_stream_info">Public Domain Archival Stream • 720p HD</string>
+    <string name="player_source_badge">Verified Public Domain • Internet Archive</string>
+    <string name="player_subtitles">Subtitles &amp; Captions</string>
+    <string name="player_subtitles_off">Subtitles Off</string>
+    <string name="player_audio_tracks">Audio Tracks</string>
+    <string name="player_quality">Stream Quality</string>
+    <string name="player_pip_mode">Picture-in-Picture</string>
+
+    <!-- Offline & Downloads -->
+    <string name="library_tab_downloads">Downloads</string>
+    <string name="library_downloads_empty_title">No Offline Movies</string>
+    <string name="library_downloads_empty_desc">Download eligible public-domain classics to watch anytime without an internet connection.</string>
+    <string name="download_status_completed">Downloaded</string>
+    <string name="download_status_downloading">Downloading</string>
+    <string name="download_status_paused">Paused</string>
+    <string name="download_status_failed">Download Failed</string>
+    <string name="download_button">Download for Offline</string>
+    <string name="action_delete_download">Delete download</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_resume">Resume</string>
+    <string name="offline_mode_active_banner">Offline Mode • Playing from local storage &amp; cache</string>
+
+    <!-- Profiles & Personalization -->
+    <string name="profile_section_title">Profiles &amp; Personalization</string>
+    <string name="profile_count_suffix">profiles configured</string>
+    <string name="profile_action_switch">SWITCH</string>
+    <string name="profile_dialog_title">Select Profile</string>
+    <string name="profile_dialog_desc">Watchlists, favorites, and recommendations remain completely isolated per profile.</string>
+    <string name="profile_badge_default">DEFAULT</string>
+    <string name="action_delete_profile">Delete profile</string>
+    <string name="profile_add_button">New Profile</string>
+    <string name="profile_create_title">Create Profile</string>
+    <string name="profile_name_label">Profile Name</string>
+    <string name="profile_avatar_label">Choose Cinematic Avatar</string>
+    <string name="profile_preferred_genres_label">Favorite Genres</string>
+
+    <!-- Recommendations -->
+    <string name="home_section_recommended_for_you">Recommended for You</string>
+    <string name="home_section_because_you_watched">Because You Watched</string>
+    <string name="home_section_hidden_gems">Hidden Gems</string>
+
+    <!-- Common UI -->
+    <string name="common_create">Create</string>
+    <string name="common_close">Close</string>
+    <string name="common_cancel">Cancel</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
@@ -103,6 +158,26 @@
     <string name="settings_copyright_pledge">All featured titles have undergone rigorous territory rights verification to confirm their unrestricted public-domain standing.</string>
     <string name="settings_version">Version</string>
     <string name="settings_phase">Phase 2: Complete OTT UI/UX Edition</string>
+    <string name="settings_check_updates">Check for Updates</string>
+    <string name="settings_check_updates_desc">Check remote servers for the latest openStream release</string>
+
+    <!-- OTA In-App Updates -->
+    <string name="update_available_title">New Version Available</string>
+    <string name="update_available_subtitle">A new version of openStream (%1$s) is ready for download.</string>
+    <string name="update_release_notes_title">What’s New</string>
+    <string name="update_action_update">Update</string>
+    <string name="update_action_later">Later</string>
+    <string name="update_action_install">Install Update</string>
+    <string name="update_action_retry">Retry</string>
+    <string name="update_status_downloading">Downloading update… %1$d%%</string>
+    <string name="update_status_verifying">Verifying package integrity (SHA-256)…</string>
+    <string name="update_status_ready">Update downloaded and verified. Ready to install.</string>
+    <string name="update_forced_badge">MANDATORY</string>
+    <string name="update_optional_badge">UPDATE AVAILABLE</string>
+    <string name="update_permission_required">Permission is required to install updates from openStream. Please allow unknown app installations in System Settings.</string>
+    <string name="update_grant_permission">Open Settings</string>
+    <string name="update_no_update_toast">You are on the latest version of openStream.</string>
+    <string name="update_download_progress">%1$.1f MB / %2$.1f MB (%3$d%%)</string>
 
     <!-- Common UI -->
     <string name="common_loading">Retrieving cinematic catalog…</string>

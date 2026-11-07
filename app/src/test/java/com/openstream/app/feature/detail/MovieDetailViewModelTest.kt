@@ -3,6 +3,7 @@ package com.openstream.app.feature.detail
 import com.openstream.app.core.common.UiState
 import com.openstream.app.data.repository.LibraryRepositoryImpl
 import com.openstream.app.data.repository.MovieCatalogRepositoryImpl
+import com.openstream.app.fake.FakeArchiveApiService
 import com.openstream.app.fake.TestUserPreferencesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,7 +30,11 @@ class MovieDetailViewModelTest {
     fun setup() {
         Dispatchers.setMain(testDispatcher)
         userPrefs = TestUserPreferencesRepository()
-        catalogRepo = MovieCatalogRepositoryImpl(userPrefs)
+        catalogRepo = MovieCatalogRepositoryImpl(
+            userPreferencesRepository = userPrefs,
+            apiService = FakeArchiveApiService(),
+            ioDispatcher = testDispatcher
+        )
         libraryRepo = LibraryRepositoryImpl(userPrefs, catalogRepo)
     }
 

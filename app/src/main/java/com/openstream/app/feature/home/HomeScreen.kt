@@ -37,9 +37,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.openstream.app.R
 import com.openstream.app.core.common.UiState
 import com.openstream.app.core.designsystem.colors.HeroOverlayGradient
@@ -215,6 +221,85 @@ private fun HomeContent(
             }
         }
 
+        // Recommendation Engine Rails: Recommended for You
+        data.recommendations?.let { rails ->
+            if (rails.recommendedForYou.isNotEmpty()) {
+                item {
+                    Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
+                        OpenStreamSectionHeader(
+                            title = stringResource(R.string.home_section_recommended_for_you),
+                            eyebrow = "PERSONALIZED",
+                            modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
+                        )
+                        LazyRow(
+                            contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
+                            horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
+                        ) {
+                            items(rails.recommendedForYou, key = { "rec_${it.id}" }) { movie ->
+                                OpenStreamMovieCard(
+                                    movie = movie,
+                                    onClick = { onMovieClick(movie) },
+                                    cardStyle = MovieCardStyle.Portrait,
+                                    cardWidth = 144.dp
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Because You Watched
+            if (rails.becauseYouWatchedMovies.isNotEmpty() && !rails.becauseYouWatchedTitle.isNullOrBlank()) {
+                item {
+                    Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
+                        OpenStreamSectionHeader(
+                            title = "${stringResource(R.string.home_section_because_you_watched)} ${rails.becauseYouWatchedTitle}",
+                            modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
+                        )
+                        LazyRow(
+                            contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
+                            horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
+                        ) {
+                            items(rails.becauseYouWatchedMovies, key = { "byw_${it.id}" }) { movie ->
+                                OpenStreamMovieCard(
+                                    movie = movie,
+                                    onClick = { onMovieClick(movie) },
+                                    cardStyle = MovieCardStyle.Portrait,
+                                    cardWidth = 144.dp
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Hidden Gems
+            if (rails.hiddenGems.isNotEmpty()) {
+                item {
+                    Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
+                        OpenStreamSectionHeader(
+                            title = stringResource(R.string.home_section_hidden_gems),
+                            eyebrow = "CURATED ARCHIVE",
+                            modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
+                        )
+                        LazyRow(
+                            contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
+                            horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
+                        ) {
+                            items(rails.hiddenGems, key = { "gem_${it.id}" }) { movie ->
+                                OpenStreamMovieCard(
+                                    movie = movie,
+                                    onClick = { onMovieClick(movie) },
+                                    cardStyle = MovieCardStyle.Portrait,
+                                    cardWidth = 144.dp
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // Recently Restored Masterpieces
         if (data.recentlyAdded.isNotEmpty()) {
             item {
@@ -249,17 +334,46 @@ private fun HomeHeroBanner(
     onToggleWatchlist: () -> Unit,
     onExploreClick: () -> Unit
 ) {
+    val context = LocalContext.current
+    val heroImageUrl = movie.heroImageUrl.ifBlank { movie.backdropUrl.ifBlank { movie.posterUrl } }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(440.dp)
             .background(OpenStreamTheme.colors.surfaceElevated)
     ) {
-        // Backdrop placeholder or image
-        OpenStreamPosterPlaceholder(
-            title = movie.title,
-            modifier = Modifier.fillMaxSize()
-        )
+        // High quality image or placeholder
+        if (heroImageUrl.isNotBlank()) {
+            SubcomposeAsyncImage(
+                model = ImageRequest.Builder(context)
+                    .data(heroImageUrl)
+                    .crossfade(250)
+                    .diskCachePolicy(CachePolicy.ENABLED)
+                    .memoryCachePolicy(CachePolicy.ENABLED)
+                    .build(),
+                contentDescription = movie.title,
+                contentScale = ContentScale.Crop,
+                loading = {
+                    OpenStreamPosterPlaceholder(
+                        title = movie.title,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                },
+                error = {
+                    OpenStreamPosterPlaceholder(
+                        title = movie.title,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+        } else {
+            OpenStreamPosterPlaceholder(
+                title = movie.title,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
 
         // Multi-stop cinematic gradient scrim
         Box(

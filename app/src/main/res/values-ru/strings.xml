@@ -69,6 +69,7 @@
 
     <!-- Movie Details -->
     <string name="detail_title">Архивная запись</string>
+    <string name="detail_action_watch_now">Смотреть</string>
     <string name="detail_action_explore">Подробнее о фильме</string>
     <string name="detail_action_watchlist">В список</string>
     <string name="detail_action_in_watchlist">В списке</string>
@@ -78,13 +79,67 @@
     <string name="detail_section_cast">В главных ролях</string>
     <string name="detail_section_preservation">Статус общественного достояния</string>
     <string name="detail_section_related">Похожие шедевры</string>
-    <string name="detail_playback_notice">Отреставрированная архивная копия. Функция потокового онлайн-воспроизведения появится в Фазе 3.</string>
+    <string name="detail_playback_notice">Шедевр мирового общественного достояния. Прямое воспроизведение через Internet Archive.</string>
     <string name="detail_badge_public_domain">ОБЩЕСТВЕННОЕ ДОСТОЯНИЕ</string>
     <string name="detail_badge_restored">ОТРЕСТАВРИРОВАНО HD</string>
     <string name="detail_director">Режиссёр: %1$s</string>
     <string name="detail_country">Страна: %1$s</string>
     <string name="detail_share">Поделиться</string>
     <string name="detail_badge_year">%1$d</string>
+
+    <!-- Player -->
+    <string name="player_buffering">Буферизация архивного потока…</string>
+    <string name="player_error_title">Ошибка воспроизведения</string>
+    <string name="player_error_desc">Не удалось воспроизвести архивный фильм. Пожалуйста, проверьте подключение к сети.</string>
+    <string name="player_retry">Повторить попытку</string>
+    <string name="player_fullscreen">Во весь экран</string>
+    <string name="player_rewind_10">Перемотка на 10 сек назад</string>
+    <string name="player_forward_10">Перемотка на 10 сек вперед</string>
+    <string name="player_stream_info">Архивный поток • Общественное достояние • 720p HD</string>
+    <string name="player_source_badge">Проверено: Общественное достояние • Internet Archive</string>
+    <string name="player_subtitles">Субтитры</string>
+    <string name="player_subtitles_off">Без субтитров</string>
+    <string name="player_audio_tracks">Аудиодорожки</string>
+    <string name="player_quality">Качество видео</string>
+    <string name="player_pip_mode">Картинка в картинке</string>
+
+    <!-- Offline & Downloads -->
+    <string name="library_tab_downloads">Загрузки</string>
+    <string name="library_downloads_empty_title">Нет сохраненных фильмов</string>
+    <string name="library_downloads_empty_desc">Скачивайте шедевры кино в общественном достоянии для просмотра в любое время без интернета.</string>
+    <string name="download_status_completed">Загружено</string>
+    <string name="download_status_downloading">Загрузка</string>
+    <string name="download_status_paused">На паузе</string>
+    <string name="download_status_failed">Ошибка загрузки</string>
+    <string name="download_button">Скачать для офлайн-просмотра</string>
+    <string name="action_delete_download">Удалить загрузку</string>
+    <string name="action_pause">Пауза</string>
+    <string name="action_resume">Продолжить</string>
+    <string name="offline_mode_active_banner">Офлайн-режим • Воспроизведение из памяти и кэша</string>
+
+    <!-- Profiles & Personalization -->
+    <string name="profile_section_title">Профили и персонализация</string>
+    <string name="profile_count_suffix">профилей создано</string>
+    <string name="profile_action_switch">ВЫБРАТЬ</string>
+    <string name="profile_dialog_title">Выберите профиль</string>
+    <string name="profile_dialog_desc">Списки просмотра, избранное и рекомендации изолированы для каждого профиля.</string>
+    <string name="profile_badge_default">ПО УМОЛЧАНИЮ</string>
+    <string name="action_delete_profile">Удалить профиль</string>
+    <string name="profile_add_button">Новый профиль</string>
+    <string name="profile_create_title">Создание профиля</string>
+    <string name="profile_name_label">Имя профиля</string>
+    <string name="profile_avatar_label">Выберите кино-аватар</string>
+    <string name="profile_preferred_genres_label">Любимые жанры</string>
+
+    <!-- Recommendations -->
+    <string name="home_section_recommended_for_you">Рекомендовано вам</string>
+    <string name="home_section_because_you_watched">Потому что вы смотрели</string>
+    <string name="home_section_hidden_gems">Скрытые шедевры</string>
+
+    <!-- Common UI -->
+    <string name="common_create">Создать</string>
+    <string name="common_close">Закрыть</string>
+    <string name="common_cancel">Отмена</string>
 
     <!-- Settings -->
     <string name="settings_title">Настройки</string>
@@ -103,6 +158,26 @@
     <string name="settings_copyright_pledge">Все представленные картины проверены юридически и находятся в общественном достоянии.</string>
     <string name="settings_version">Версия</string>
     <string name="settings_phase">Фаза 2: Полная версия OTT UI/UX</string>
+    <string name="settings_check_updates">Проверить обновления</string>
+    <string name="settings_check_updates_desc">Проверить наличие последней версии openStream на сервере</string>
+
+    <!-- OTA In-App Updates -->
+    <string name="update_available_title">Доступна новая версия</string>
+    <string name="update_available_subtitle">Новая версия openStream (%1$s) готова к загрузке.</string>
+    <string name="update_release_notes_title">Что нового</string>
+    <string name="update_action_update">Обновить</string>
+    <string name="update_action_later">Позже</string>
+    <string name="update_action_install">Установить</string>
+    <string name="update_action_retry">Повторить</string>
+    <string name="update_status_downloading">Загрузка обновления… %1$d%%</string>
+    <string name="update_status_verifying">Проверка безопасности и целостности (SHA-256)…</string>
+    <string name="update_status_ready">Обновление загружено и проверено. Готово к установке.</string>
+    <string name="update_forced_badge">ОБЯЗАТЕЛЬНОЕ ОБНОВЛЕНИЕ</string>
+    <string name="update_optional_badge">ДОСТУПНА ВЕРСИЯ</string>
+    <string name="update_permission_required">Для установки обновлений openStream требуется разрешение. Разрешите установку из неизвестных источников в настройках.</string>
+    <string name="update_grant_permission">Открыть настройки</string>
+    <string name="update_no_update_toast">У вас установлена самая последняя версия openStream.</string>
+    <string name="update_download_progress">%1$.1f МБ / %2$.1f МБ (%3$d%%)</string>
 
     <!-- Common UI -->
     <string name="common_loading">Загрузка архива…</string>
