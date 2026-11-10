@@ -35,6 +35,12 @@ class SearchViewModel(
     private val _searchSuggestions = MutableStateFlow<List<String>>(emptyList())
     val searchSuggestions: StateFlow<List<String>> = _searchSuggestions.asStateFlow()
 
+    private val _selectedMediaType = MutableStateFlow<String?>("all")
+    val selectedMediaType: StateFlow<String?> = _selectedMediaType.asStateFlow()
+
+    private val _selectedEra = MutableStateFlow<String?>("all")
+    val selectedEra: StateFlow<String?> = _selectedEra.asStateFlow()
+
     private var allCatalogTitles = mutableListOf<String>()
 
     init {
@@ -42,7 +48,7 @@ class SearchViewModel(
             val movies = catalogRepository.getMoviesByGenre(Genre.ALL).firstOrNull() ?: emptyList()
             allCatalogTitles.addAll(movies.map { it.title })
             allCatalogTitles.addAll(movies.map { it.director }.distinct())
-            allCatalogTitles.addAll(listOf("Silent Era", "Film Noir", "Sci-Fi & Horror", "Comedy", "Drama"))
+            allCatalogTitles.addAll(listOf("Silent Era", "Film Noir", "Sci-Fi & Horror", "Comedy", "Drama", "Action", "TV Series"))
         }
 
         viewModelScope.launch {
@@ -70,6 +76,16 @@ class SearchViewModel(
 
     fun onQueryChanged(newQuery: String) {
         _query.value = newQuery
+    }
+
+    fun setMediaTypeFilter(type: String?) {
+        _selectedMediaType.value = type
+        executeSearch(_query.value)
+    }
+
+    fun setEraFilter(era: String?) {
+        _selectedEra.value = era
+        executeSearch(_query.value)
     }
 
     fun clearQuery() {
@@ -110,14 +126,30 @@ class SearchViewModel(
             return
         }
 
+        val mediaType = when (_selectedMediaType.value) {
+            "movie" -> "movie"
+            "tv" -> "tv"
+            else -> null
+        }
+
         searchJob = viewModelScope.launch {
             _searchState.value = UiState.Loading
             try {
-                catalogRepository.searchMovies(trimmed).collect { results ->
-                    if (results.isEmpty()) {
-                        _searchState.value = UiState.Empty("No results")
+                catalogRepository.searchWithFilters(
+                    query = trimmed,
+                    mediaType = mediaType
+                ).collect { rawResults ->
+                    val era = _selectedEra.value
+                    val filtered = when (era) {
+                        "2024-2026" -> rawResults.filter { it.year in 2024..2026 }
+                        "2020-2023" -> rawResults.filter { it.year in 2020..2023 }
+                        "classic" -> rawResults.filter { it.year < 1980 }
+                        else -> rawResults
+                    }
+                    if (filtered.isEmpty()) {
+                        _searchState.value = UiState.Empty("No results matching filters")
                     } else {
-                        _searchState.value = UiState.Success(results)
+                        _searchState.value = UiState.Success(filtered)
                     }
                 }
             } catch (t: Throwable) {

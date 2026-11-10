@@ -23,10 +23,17 @@ import kotlinx.coroutines.launch
 
 data class HomeFeedData(
     val heroMovie: Movie?,
-    val continueWatching: List<Movie>,
-    val collections: List<MovieCategory>,
-    val recentlyAdded: List<Movie>,
-    val trendingClassics: List<Movie>,
+    val trendingMovies: List<Movie> = emptyList(),
+    val popularMovies: List<Movie> = emptyList(),
+    val nowPlayingMovies: List<Movie> = emptyList(),
+    val recentlyReleased: List<Movie> = emptyList(),
+    val upcomingMovies: List<Movie> = emptyList(),
+    val topRatedMovies: List<Movie> = emptyList(),
+    val popularTvSeries: List<Movie> = emptyList(),
+    val classicCinema: List<Movie> = emptyList(),
+    val continueWatching: List<Movie> = emptyList(),
+    val collections: List<MovieCategory> = emptyList(),
+    val trendingClassics: List<Movie> = emptyList(),
     val recommendations: RecommendationRails? = null
 )
 
@@ -67,26 +74,40 @@ class HomeViewModel(
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             try {
-                val allMoviesFlow = catalogRepository.getMoviesByGenre(Genre.ALL)
                 val heroFlow = catalogRepository.getHeroMovie()
+                val trendingFlow = catalogRepository.getTrendingMovies()
+                val popularFlow = catalogRepository.getPopularMovies()
+                val nowPlayingFlow = catalogRepository.getNowPlayingMovies()
+                val recentReleasedFlow = catalogRepository.getRecentlyReleasedMovies()
+                val upcomingFlow = catalogRepository.getUpcomingMovies()
+                val topRatedFlow = catalogRepository.getTopRatedMovies()
+                val tvSeriesFlow = catalogRepository.getPopularTvSeries()
+                val classicsFlow = catalogRepository.getClassicCinema()
                 val continueFlow = catalogRepository.getContinueWatching()
                 val collectionsFlow = catalogRepository.getFeaturedCollections()
-                val recentFlow = catalogRepository.getRecentlyAdded()
-                val popularFlow = catalogRepository.getPopularClassics()
+                val allMoviesFlow = catalogRepository.getMoviesByGenre(Genre.ALL)
 
-                val firstGroup = combine(heroFlow, continueFlow, collectionsFlow) { hero, continueList, collections ->
-                    Triple(hero, continueList, collections)
+                val groupA = combine(heroFlow, trendingFlow, popularFlow) { hero, trending, popular ->
+                    Triple(hero, trending, popular)
                 }
-                val secondGroup = combine(recentFlow, popularFlow, allMoviesFlow) { recent, popular, allMovies ->
-                    Triple(recent, popular, allMovies)
+                val groupB = combine(nowPlayingFlow, recentReleasedFlow, upcomingFlow) { nowPlaying, recentReleased, upcoming ->
+                    Triple(nowPlaying, recentReleased, upcoming)
+                }
+                val groupC = combine(topRatedFlow, tvSeriesFlow, classicsFlow) { topRated, tvSeries, classics ->
+                    Triple(topRated, tvSeries, classics)
+                }
+                val groupD = combine(continueFlow, collectionsFlow, allMoviesFlow) { continueList, collections, allMovies ->
+                    Triple(continueList, collections, allMovies)
                 }
 
-                combine(firstGroup, secondGroup) { (hero, continueList, collections), (recent, popular, allMovies) ->
+                combine(groupA, groupB, groupC, groupD) { (hero, trending, popular),
+                                                          (nowPlaying, recentReleased, upcoming),
+                                                          (topRated, tvSeries, classics),
+                                                          (continueList, collections, allMovies) ->
+
                     val activeProfile = userProfileRepository?.getActiveProfileSync()
                         ?: com.openstream.app.domain.model.UserProfile.createDefault()
-                    val watchlist = userPreferencesRepository?.watchlistMovieIds?.let {
-                        emptySet<String>()
-                    } ?: emptySet()
+                    val watchlist = userPreferencesRepository?.watchlistMovieIds?.let { emptySet<String>() } ?: emptySet()
                     val history = playbackHistoryRepository?.let { emptyList<Movie>() } ?: continueList
 
                     val rails = MovieRecommendationEngine.generateRecommendations(
@@ -99,10 +120,17 @@ class HomeViewModel(
 
                     HomeFeedData(
                         heroMovie = hero,
+                        trendingMovies = trending,
+                        popularMovies = popular,
+                        nowPlayingMovies = nowPlaying,
+                        recentlyReleased = recentReleased,
+                        upcomingMovies = upcoming,
+                        topRatedMovies = topRated,
+                        popularTvSeries = tvSeries,
+                        classicCinema = classics,
                         continueWatching = continueList,
                         collections = collections,
-                        recentlyAdded = recent,
-                        trendingClassics = popular,
+                        trendingClassics = classics.take(6),
                         recommendations = rails
                     )
                 }.collect { feedData ->

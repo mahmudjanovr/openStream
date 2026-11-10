@@ -46,7 +46,13 @@ class HomeViewModelTest {
         assertTrue("Expected UiState.Success but got $state", state is UiState.Success)
         val data = (state as UiState.Success).data
         assertNotNull(data.heroMovie)
-        assertEquals("Metropolis", data.heroMovie?.title)
+        assertTrue(data.trendingMovies.isNotEmpty())
+        assertTrue(data.popularMovies.isNotEmpty())
+        assertTrue(data.nowPlayingMovies.isNotEmpty())
+        assertTrue(data.upcomingMovies.isNotEmpty())
+        assertTrue(data.topRatedMovies.isNotEmpty())
+        assertTrue(data.tvSeries.isNotEmpty())
+        assertTrue(data.classicCinema.isNotEmpty())
         assertTrue(data.continueWatching.isNotEmpty())
         assertTrue(data.collections.isNotEmpty())
     }

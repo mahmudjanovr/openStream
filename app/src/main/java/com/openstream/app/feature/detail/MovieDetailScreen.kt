@@ -23,6 +23,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bookmark
@@ -32,8 +34,12 @@ import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.PlayCircleOutline
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Tv
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -247,14 +253,23 @@ private fun MovieDetailContent(
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        OpenStreamBadge(
-                            text = stringResource(R.string.detail_badge_public_domain),
-                            variant = OpenStreamBadgeVariant.Gold
-                        )
-                        OpenStreamBadge(
-                            text = stringResource(R.string.detail_badge_restored),
-                            variant = OpenStreamBadgeVariant.Subtle
-                        )
+                        if (movie.voteAverage != null && movie.voteAverage > 0) {
+                            OpenStreamBadge(
+                                text = "★ ${String.format(java.util.Locale.US, "%.1f", movie.voteAverage)}",
+                                variant = OpenStreamBadgeVariant.Gold
+                            )
+                        } else if (movie.isPublicDomain) {
+                            OpenStreamBadge(
+                                text = stringResource(R.string.detail_badge_public_domain),
+                                variant = OpenStreamBadgeVariant.Gold
+                            )
+                        }
+                        if (movie.mediaType == "tv") {
+                            OpenStreamBadge(
+                                text = "TV SERIES",
+                                variant = OpenStreamBadgeVariant.Subtle
+                            )
+                        }
                         OpenStreamBadge(
                             text = "${movie.year}",
                             variant = OpenStreamBadgeVariant.Subtle
@@ -265,6 +280,10 @@ private fun MovieDetailContent(
                                 variant = OpenStreamBadgeVariant.Subtle
                             )
                         }
+                        OpenStreamBadge(
+                            text = movie.movieSource.displayName,
+                            variant = OpenStreamBadgeVariant.Subtle
+                        )
                     }
 
                     Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
@@ -285,16 +304,36 @@ private fun MovieDetailContent(
 
                     Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.medium))
 
-                    // Primary Action: WATCH NOW
-                    OpenStreamButton(
-                        text = stringResource(R.string.detail_action_watch_now),
-                        onClick = onWatchClick,
-                        leadingIcon = Icons.Default.PlayArrow,
-                        variant = OpenStreamButtonVariant.Primary,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    // Primary Action: WATCH NOW (for directly playable stream)
+                    if (movie.isPlayableDirectly) {
+                        OpenStreamButton(
+                            text = stringResource(R.string.detail_action_watch_now),
+                            onClick = onWatchClick,
+                            leadingIcon = Icons.Default.PlayArrow,
+                            variant = OpenStreamButtonVariant.Primary,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
+                    }
 
-                    Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
+                    // Official Trailer Action
+                    val trailerKey = movie.trailerYoutubeKey ?: data.details?.trailerYoutubeKey
+                    val trailerUrl = data.details?.trailerUrl ?: trailerKey?.let { "https://www.youtube.com/watch?v=$it" }
+                    if (!trailerUrl.isNullOrBlank()) {
+                        OpenStreamButton(
+                            text = "Official Trailer",
+                            onClick = {
+                                try {
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
+                                    context.startActivity(intent)
+                                } catch (_: Exception) {}
+                            },
+                            leadingIcon = Icons.Default.PlayCircleOutline,
+                            variant = if (movie.isPlayableDirectly) OpenStreamButtonVariant.Outlined else OpenStreamButtonVariant.Primary,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
+                    }
 
                     // Secondary Actions: Watchlist & Favorite Toggles
                     Row(
@@ -355,12 +394,80 @@ private fun MovieDetailContent(
                         )
                     }
 
+                    // Where to Stream (Commercial Availability)
+                    val providers = (data.details?.watchProviders ?: emptyList())
+                        .ifEmpty { movie.watchProviders }
+                    if (providers.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.large))
+                        OpenStreamSectionHeader(title = "Where to Stream")
+                        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            providers.forEach { provider ->
+                                Box(
+                                    modifier = Modifier
+                                        .clip(OpenStreamTheme.shapes.small)
+                                        .background(OpenStreamTheme.colors.surfaceElevated)
+                                        .border(1.dp, OpenStreamTheme.colors.border, OpenStreamTheme.shapes.small)
+                                        .padding(horizontal = 14.dp, vertical = 8.dp)
+                                ) {
+                                    Text(
+                                        text = provider.providerName,
+                                        style = OpenStreamTheme.typography.labelMedium,
+                                        color = OpenStreamTheme.colors.accent
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    // TV Series Episodes Guide
+                    val seasons = data.details?.seasons ?: emptyList()
+                    if (seasons.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.large))
+                        OpenStreamSectionHeader(title = "Episodes Guide")
+                        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
+                        seasons.forEach { season ->
+                            Text(
+                                text = "Season ${season.seasonNumber}",
+                                style = OpenStreamTheme.typography.titleMedium,
+                                color = OpenStreamTheme.colors.textPrimary,
+                                modifier = Modifier.padding(vertical = 4.dp)
+                            )
+                            season.episodes.take(5).forEach { ep ->
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 4.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Text(
+                                        text = "E${ep.episodeNumber}: ${ep.title}",
+                                        style = OpenStreamTheme.typography.bodyMedium,
+                                        color = OpenStreamTheme.colors.textSecondary,
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                    if (ep.durationMinutes != null) {
+                                        Text(
+                                            text = "${ep.durationMinutes}m",
+                                            style = OpenStreamTheme.typography.bodySmall,
+                                            color = OpenStreamTheme.colors.accent
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.large))
 
-                    // Archival Availability Notice Card
-                    ArchivalAvailabilityNotice()
-
-                    Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.large))
+                    // Archival / Playback Notice Card
+                    if (movie.isPublicDomain) {
+                        ArchivalAvailabilityNotice()
+                        Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.large))
+                    }
 
                     // Synopsis & Context Section
                     OpenStreamSectionHeader(title = stringResource(R.string.detail_section_synopsis))
@@ -389,12 +496,14 @@ private fun MovieDetailContent(
                         Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.large))
                     }
 
-                    // Public Domain & Archival Status Card
-                    OpenStreamSectionHeader(title = stringResource(R.string.detail_section_preservation))
+                    // Public Domain & Archival Status Card / Metadata Source Card
+                    OpenStreamSectionHeader(
+                        title = if (movie.isPublicDomain) stringResource(R.string.detail_section_preservation) else "Metadata & Source"
+                    )
                     Spacer(modifier = Modifier.height(OpenStreamTheme.spacing.small))
                     PreservationCard(
                         licenseStatus = movie.licenseStatus,
-                        restorationNote = movie.restorationNote,
+                        restorationNote = movie.restorationNote.ifBlank { "Verified metadata from ${movie.movieSource.displayName} entertainment database" },
                         sourceName = movie.movieSource.displayName
                     )
                 }

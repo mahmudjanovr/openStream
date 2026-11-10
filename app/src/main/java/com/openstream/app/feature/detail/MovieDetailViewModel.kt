@@ -18,8 +18,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
+import com.openstream.app.domain.model.MovieDetails
+
 data class MovieDetailData(
     val movie: Movie,
+    val details: MovieDetails? = null,
     val relatedMovies: List<Movie>,
     val isInWatchlist: Boolean,
     val isFavorite: Boolean
@@ -47,15 +50,18 @@ class MovieDetailViewModel(
             _uiState.value = UiState.Loading
             try {
                 combine(
+                    catalogRepository.getMovieDetails(movieId),
                     catalogRepository.getMovieById(movieId),
                     catalogRepository.getRelatedMovies(movieId),
                     libraryRepository.isInWatchlist(movieId),
                     libraryRepository.isFavorite(movieId)
-                ) { movie, related, inWatchlist, isFav ->
-                    if (movie != null) {
+                ) { details, fallbackMovie, related, inWatchlist, isFav ->
+                    val resolvedMovie = details?.movie ?: fallbackMovie
+                    if (resolvedMovie != null) {
                         UiState.Success(
                             MovieDetailData(
-                                movie = movie.copy(isInWatchlist = inWatchlist, isFavorite = isFav),
+                                movie = resolvedMovie.copy(isInWatchlist = inWatchlist, isFavorite = isFav),
+                                details = details,
                                 relatedMovies = related,
                                 isInWatchlist = inWatchlist,
                                 isFavorite = isFav

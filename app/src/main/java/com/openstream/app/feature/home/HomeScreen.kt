@@ -113,7 +113,7 @@ private fun HomeContent(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(bottom = 88.dp)
     ) {
-        // Hero Cinematic Banner
+        // 1. Featured Movie Hero Section
         item {
             data.heroMovie?.let { hero ->
                 HomeHeroBanner(
@@ -125,7 +125,7 @@ private fun HomeContent(
             }
         }
 
-        // Continue Watching Section with Landscape Progress Cards
+        // Continue Watching (if user has active playback progress)
         if (data.continueWatching.isNotEmpty()) {
             item {
                 Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
@@ -143,7 +143,7 @@ private fun HomeContent(
                                 movie = movie,
                                 onClick = { onMovieClick(movie) },
                                 cardStyle = MovieCardStyle.Landscape,
-                                cardWidth = 230.dp,
+                                cardWidth = 240.dp,
                                 showProgress = true
                             )
                         }
@@ -152,20 +152,20 @@ private fun HomeContent(
             }
         }
 
-        // Trending Masterpieces Section with Rank Badges
-        if (data.trendingClassics.isNotEmpty()) {
+        // 2. Trending Now (with Luxury Gold Rank Badges)
+        if (data.trendingMovies.isNotEmpty()) {
             item {
                 Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
                     OpenStreamSectionHeader(
-                        title = stringResource(R.string.home_section_classics),
-                        eyebrow = stringResource(R.string.home_featured_tag),
+                        title = "Trending Now",
+                        eyebrow = "DAILY TOP PICKS",
                         modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
                     )
                     LazyRow(
                         contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
                         horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
                     ) {
-                        itemsIndexed(data.trendingClassics, key = { _, movie -> "trending_${movie.id}" }) { index, movie ->
+                        itemsIndexed(data.trendingMovies, key = { _, movie -> "trending_${movie.id}" }) { index, movie ->
                             Box {
                                 OpenStreamMovieCard(
                                     movie = movie,
@@ -197,6 +197,188 @@ private fun HomeContent(
             }
         }
 
+        // 3. Popular Movies
+        if (data.popularMovies.isNotEmpty()) {
+            item {
+                Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
+                    OpenStreamSectionHeader(
+                        title = "Popular Movies",
+                        eyebrow = "GLOBAL AUDIENCE FAVORITES",
+                        modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
+                    )
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
+                        horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
+                    ) {
+                        items(data.popularMovies, key = { "popular_${it.id}" }) { movie ->
+                            OpenStreamMovieCard(
+                                movie = movie,
+                                onClick = { onMovieClick(movie) },
+                                cardStyle = MovieCardStyle.Portrait,
+                                cardWidth = 144.dp
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        // 4. Now Playing in Cinemas
+        if (data.nowPlayingMovies.isNotEmpty()) {
+            item {
+                Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
+                    OpenStreamSectionHeader(
+                        title = "Now Playing in Cinemas",
+                        eyebrow = "IN THEATERS",
+                        modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
+                    )
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
+                        horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
+                    ) {
+                        items(data.nowPlayingMovies, key = { "now_${it.id}" }) { movie ->
+                            OpenStreamMovieCard(
+                                movie = movie,
+                                onClick = { onMovieClick(movie) },
+                                cardStyle = MovieCardStyle.Portrait,
+                                cardWidth = 144.dp
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        // 5. Recently Released (2020–2026)
+        if (data.recentlyReleased.isNotEmpty()) {
+            item {
+                Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
+                    OpenStreamSectionHeader(
+                        title = "Recently Released",
+                        eyebrow = "2020 – 2026 RELEASES",
+                        modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
+                    )
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
+                        horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
+                    ) {
+                        items(data.recentlyReleased, key = { "recent_${it.id}" }) { movie ->
+                            OpenStreamMovieCard(
+                                movie = movie,
+                                onClick = { onMovieClick(movie) },
+                                cardStyle = MovieCardStyle.Portrait,
+                                cardWidth = 144.dp
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        // 6. Upcoming Movies
+        if (data.upcomingMovies.isNotEmpty()) {
+            item {
+                Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
+                    OpenStreamSectionHeader(
+                        title = "Upcoming Movies",
+                        eyebrow = "COMING SOON TO CINEMAS",
+                        modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
+                    )
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
+                        horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
+                    ) {
+                        items(data.upcomingMovies, key = { "upcoming_${it.id}" }) { movie ->
+                            OpenStreamMovieCard(
+                                movie = movie,
+                                onClick = { onMovieClick(movie) },
+                                cardStyle = MovieCardStyle.Portrait,
+                                cardWidth = 144.dp
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        // 7. Top Rated Masterpieces
+        if (data.topRatedMovies.isNotEmpty()) {
+            item {
+                Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
+                    OpenStreamSectionHeader(
+                        title = "Top Rated",
+                        eyebrow = "CRITICAL ACCLAIM",
+                        modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
+                    )
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
+                        horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
+                    ) {
+                        items(data.topRatedMovies, key = { "top_${it.id}" }) { movie ->
+                            OpenStreamMovieCard(
+                                movie = movie,
+                                onClick = { onMovieClick(movie) },
+                                cardStyle = MovieCardStyle.Portrait,
+                                cardWidth = 144.dp
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        // 8. Popular TV Series (Powered by TVmaze & TMDB)
+        if (data.popularTvSeries.isNotEmpty()) {
+            item {
+                Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
+                    OpenStreamSectionHeader(
+                        title = "Popular TV Series",
+                        eyebrow = "EPISODIC ENTERTAINMENT",
+                        modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
+                    )
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
+                        horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
+                    ) {
+                        items(data.popularTvSeries, key = { "tv_${it.id}" }) { movie ->
+                            OpenStreamMovieCard(
+                                movie = movie,
+                                onClick = { onMovieClick(movie) },
+                                cardStyle = MovieCardStyle.Portrait,
+                                cardWidth = 144.dp
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        // 9. Classic Cinema (Verified Direct Streams from Internet Archive)
+        if (data.classicCinema.isNotEmpty()) {
+            item {
+                Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
+                    OpenStreamSectionHeader(
+                        title = "Classic Cinema",
+                        eyebrow = "PUBLIC DOMAIN MASTERPIECES (DIRECT STREAM)",
+                        modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
+                    )
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
+                        horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
+                    ) {
+                        items(data.classicCinema, key = { "classic_${it.id}" }) { movie ->
+                            OpenStreamMovieCard(
+                                movie = movie,
+                                onClick = { onMovieClick(movie) },
+                                cardStyle = MovieCardStyle.Portrait,
+                                cardWidth = 144.dp
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
         // Curated Collections
         items(data.collections, key = { "collection_${it.id}" }) { category ->
             Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
@@ -221,14 +403,14 @@ private fun HomeContent(
             }
         }
 
-        // Recommendation Engine Rails: Recommended for You
+        // Recommendations Engine
         data.recommendations?.let { rails ->
             if (rails.recommendedForYou.isNotEmpty()) {
                 item {
                     Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
                         OpenStreamSectionHeader(
                             title = stringResource(R.string.home_section_recommended_for_you),
-                            eyebrow = "PERSONALIZED",
+                            eyebrow = "PERSONALIZED PICKS",
                             modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
                         )
                         LazyRow(
@@ -243,82 +425,6 @@ private fun HomeContent(
                                     cardWidth = 144.dp
                                 )
                             }
-                        }
-                    }
-                }
-            }
-
-            // Because You Watched
-            if (rails.becauseYouWatchedMovies.isNotEmpty() && !rails.becauseYouWatchedTitle.isNullOrBlank()) {
-                item {
-                    Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
-                        OpenStreamSectionHeader(
-                            title = "${stringResource(R.string.home_section_because_you_watched)} ${rails.becauseYouWatchedTitle}",
-                            modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
-                        )
-                        LazyRow(
-                            contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
-                            horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
-                        ) {
-                            items(rails.becauseYouWatchedMovies, key = { "byw_${it.id}" }) { movie ->
-                                OpenStreamMovieCard(
-                                    movie = movie,
-                                    onClick = { onMovieClick(movie) },
-                                    cardStyle = MovieCardStyle.Portrait,
-                                    cardWidth = 144.dp
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Hidden Gems
-            if (rails.hiddenGems.isNotEmpty()) {
-                item {
-                    Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
-                        OpenStreamSectionHeader(
-                            title = stringResource(R.string.home_section_hidden_gems),
-                            eyebrow = "CURATED ARCHIVE",
-                            modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
-                        )
-                        LazyRow(
-                            contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
-                            horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
-                        ) {
-                            items(rails.hiddenGems, key = { "gem_${it.id}" }) { movie ->
-                                OpenStreamMovieCard(
-                                    movie = movie,
-                                    onClick = { onMovieClick(movie) },
-                                    cardStyle = MovieCardStyle.Portrait,
-                                    cardWidth = 144.dp
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // Recently Restored Masterpieces
-        if (data.recentlyAdded.isNotEmpty()) {
-            item {
-                Column(modifier = Modifier.padding(top = OpenStreamTheme.spacing.sectionSpacing)) {
-                    OpenStreamSectionHeader(
-                        title = stringResource(R.string.home_section_recent),
-                        modifier = Modifier.padding(horizontal = OpenStreamTheme.spacing.medium)
-                    )
-                    LazyRow(
-                        contentPadding = PaddingValues(horizontal = OpenStreamTheme.spacing.medium),
-                        horizontalArrangement = Arrangement.spacedBy(OpenStreamTheme.spacing.medium)
-                    ) {
-                        items(data.recentlyAdded, key = { "recent_${it.id}" }) { movie ->
-                            OpenStreamMovieCard(
-                                movie = movie,
-                                onClick = { onMovieClick(movie) },
-                                cardStyle = MovieCardStyle.Portrait,
-                                cardWidth = 144.dp
-                            )
                         }
                     }
                 }

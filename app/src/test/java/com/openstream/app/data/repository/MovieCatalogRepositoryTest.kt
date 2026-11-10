@@ -110,4 +110,82 @@ class MovieCatalogRepositoryTest {
         assertTrue(streamUrl.isNotBlank())
         assertTrue(streamUrl.endsWith(".mp4"))
     }
+
+    @Test
+    fun getMovieById_carnivalOfSouls_verifiedPublicDomain() = runTest {
+        val movie = repository.getMovieById("carnival-of-souls-1962").first()
+        assertNotNull(movie)
+        assertEquals("Carnival of Souls", movie?.title)
+        assertEquals("Herk Harvey", movie?.director)
+        assertTrue(movie?.isPublicDomain == true)
+        assertTrue(movie?.metadata?.isRightsVerified == true)
+    }
+
+    @Test
+    fun getMovieById_houseOnHauntedHill_verifiedPublicDomain() = runTest {
+        val movie = repository.getMovieById("house-on-haunted-hill-1959").first()
+        assertNotNull(movie)
+        assertEquals("House on Haunted Hill", movie?.title)
+        assertEquals("William Castle", movie?.director)
+        assertTrue(movie?.leadCast?.contains("Vincent Price") == true)
+        assertTrue(movie?.isPublicDomain == true)
+    }
+
+    @Test
+    fun getMovieById_phantomOfTheOpera_verifiedPublicDomain() = runTest {
+        val movie = repository.getMovieById("phantom-opera-1925").first()
+        assertNotNull(movie)
+        assertEquals("The Phantom of the Opera", movie?.title)
+        assertEquals(1925, movie?.year)
+        assertTrue(movie?.isPublicDomain == true)
+    }
+
+    @Test
+    fun getTrendingMovies_returnsModernCinema() = runTest {
+        val trending = repository.getTrendingMovies().first()
+        assertTrue(trending.isNotEmpty())
+        assertTrue(trending.any { it.year in 2023..2026 })
+        assertTrue(trending.any { it.title.contains("Dune") || it.title.contains("Oppenheimer") })
+    }
+
+    @Test
+    fun getNowPlaying_and_Upcoming_returnExpectedLists() = runTest {
+        val nowPlaying = repository.getNowPlayingMovies().first()
+        assertTrue(nowPlaying.isNotEmpty())
+
+        val upcoming = repository.getUpcomingMovies().first()
+        assertTrue(upcoming.isNotEmpty())
+        assertTrue(upcoming.any { it.year in 2025..2026 })
+    }
+
+    @Test
+    fun getPopularTvSeries_returnsTvShows() = runTest {
+        val tvSeries = repository.getPopularTvSeries().first()
+        assertTrue(tvSeries.isNotEmpty())
+        assertTrue(tvSeries.all { it.mediaType == "tv" })
+        assertTrue(tvSeries.any { it.title == "Shōgun" || it.title == "Severance" })
+    }
+
+    @Test
+    fun getMovieById_modernMovie_hasTrailersAndWatchProviders() = runTest {
+        val dune = repository.getMovieById("dune-part-two-2024").first()
+        assertNotNull(dune)
+        assertEquals("Dune: Part Two", dune?.title)
+        assertEquals("Denis Villeneuve", dune?.director)
+        assertEquals(2024, dune?.year)
+        assertNotNull(dune?.trailerYoutubeKey)
+        assertTrue(dune?.watchProviders?.isNotEmpty() == true)
+    }
+
+    @Test
+    fun searchWithFilters_filtersByMediaTypeAndYear() = runTest {
+        val tvOnly = repository.searchWithFilters("Shōgun", mediaType = "tv").first()
+        assertTrue(tvOnly.isNotEmpty())
+        assertEquals("Shōgun", tvOnly.first().title)
+        assertEquals("tv", tvOnly.first().mediaType)
+
+        val year2024 = repository.searchWithFilters("Dune", year = 2024).first()
+        assertTrue(year2024.isNotEmpty())
+        assertEquals(2024, year2024.first().year)
+    }
 }

@@ -59,13 +59,16 @@ import com.openstream.app.core.designsystem.theme.OpenStreamTheme
 import com.openstream.app.domain.model.Movie
 
 private val quickSearchGenres = listOf(
-    "Silent Era",
-    "Film Noir",
-    "Sci-Fi & Horror",
-    "Comedy",
+    "2024 Cinema",
+    "TV Series",
+    "Dune",
+    "Oppenheimer",
+    "Sci-Fi",
+    "Action",
     "Drama",
-    "Buster Keaton",
-    "Fritz Lang"
+    "Animation",
+    "Classic Cinema",
+    "Silent Era"
 )
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -78,6 +81,8 @@ fun SearchScreen(
     val query by viewModel.query.collectAsState()
     val searchState by viewModel.searchState.collectAsState()
     val recentSearches by viewModel.recentSearches.collectAsState()
+    val selectedMediaType by viewModel.selectedMediaType.collectAsState()
+    val selectedEra by viewModel.selectedEra.collectAsState()
     val focusManager = LocalFocusManager.current
 
     Column(
@@ -97,7 +102,40 @@ fun SearchScreen(
             }
         )
 
-        // Quick Movement Filters Row
+        // Media Type Filter Row (All / Movies / TV Series)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = OpenStreamTheme.spacing.medium, vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            val typeFilters = listOf("all" to "All", "movie" to "Movies", "tv" to "TV Series")
+            typeFilters.forEach { (typeKey, label) ->
+                val isSelected = selectedMediaType == typeKey
+                val shape = CircleShape
+                Box(
+                    modifier = Modifier
+                        .clip(shape)
+                        .background(if (isSelected) OpenStreamTheme.colors.accent else OpenStreamTheme.colors.surface)
+                        .border(
+                            1.dp,
+                            if (isSelected) OpenStreamTheme.colors.accent else OpenStreamTheme.colors.border,
+                            shape
+                        )
+                        .clickable { viewModel.setMediaTypeFilter(typeKey) }
+                        .padding(horizontal = 14.dp, vertical = 6.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = label,
+                        style = OpenStreamTheme.typography.labelMedium,
+                        color = if (isSelected) OpenStreamTheme.colors.background else OpenStreamTheme.colors.textSecondary
+                    )
+                }
+            }
+        }
+
+        // Quick Search Tags Row
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
@@ -113,7 +151,12 @@ fun SearchScreen(
                         .background(OpenStreamTheme.colors.surface)
                         .border(1.dp, OpenStreamTheme.colors.border, shape)
                         .clickable {
-                            viewModel.onRecentSearchSelected(genreTag)
+                            val cleanTag = when (genreTag) {
+                                "2024 Cinema" -> "2024"
+                                "Classic Cinema" -> "Metropolis"
+                                else -> genreTag
+                            }
+                            viewModel.onRecentSearchSelected(cleanTag)
                             focusManager.clearFocus()
                         }
                         .padding(horizontal = 14.dp, vertical = 7.dp),
